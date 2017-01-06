@@ -43,7 +43,7 @@ fi
 
 # Install plugins
 
-vim-addon-manager status | grep -i installed | grep -i markdown> /dev/null
+vim-addon-manager status | grep -i installed | grep -i markdown > /dev/null
 
 if [ 0 -eq $? ]; then
     log_message "Plugin 'markdown' already installed"
@@ -58,7 +58,7 @@ fi
 
 
 
-vim-addon-manager list | grep -i markdown | grep -i gnupg > /dev/null
+vim-addon-manager list | grep -i gnupg | grep -i gnupg > /dev/null
 
 if [ 0 -eq $? ]; then
     log_message "Plugin 'gnupg' already installed"
