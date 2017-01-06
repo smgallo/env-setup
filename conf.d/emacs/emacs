@@ -1,0 +1,296 @@
+
+;; Steve's .emacs file
+
+;; Environmental setup
+(load "term/vt100")
+(display-time)
+
+;; default to better frame titles
+(setq frame-title-format
+      (concat  "%b - emacs@" (system-name)))
+
+;; default to unified diffs
+(setq diff-switches "-u")
+
+;; Save emacs backup files in a standard location and create backup files by copying instead of
+;; moving and creating a new file.  This will preserve group ownership.
+
+(defvar backup-dir (concat "~/.emacs.d/backups"))
+(setq backup-directory-alist (list (cons "." backup-dir))
+      backup-by-copying 1)
+
+;; Turn on:
+;; line and column numbers
+;; Default text mode in the scratch buffer
+
+(setq line-number-mode t
+      column-number-mode t
+      display-time-day-and-date t
+      initial-major-mode 'text-mode)
+
+(setq dired-listing-switches "-Falg"
+      echo-keystrokes 1
+      inhibit-startup-message t
+      next-screen-context-lines 1
+      scroll-step 1
+      search-highlight 't
+      search-slow-window-lines 2)
+
+;; Set up the default font and window size for my desktop
+
+(add-to-list 'default-frame-alist (cons 'font "-unknown-DejaVu Sans Mono-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1"))
+(add-to-list 'default-frame-alist (cons 'width 120))
+(add-to-list 'default-frame-alist (cons 'height 70))
+
+; Set x-select mode to copy the x selection into the clipboard
+; See http://www.emacswiki.org/emacs/CopyAndPaste
+(setq x-select-enable-clipboard t)
+
+; Set my local emacs lisp directory
+; (setq load-path (cons "~/elisp" load-path) )
+(add-to-list 'load-path "~/elisp")
+
+;; --------------------------------------------------------------------------------
+;; Start solarized setup
+
+(if (>= emacs-major-version 24)
+    ;; emacs 24 only
+    (progn
+      (add-to-list 'custom-theme-load-path "~/src/emacs-color-theme-solarized")
+      ;; Load the solorized color scheme`
+      (load-theme 'solarized t)
+      )
+  ;; emacs 23 only
+  (progn
+    (add-to-list 'load-path "~/src/solarized/emacs-colors-solarized")
+    (require 'color-theme)
+    (require 'color-theme-solarized)
+    (color-theme-solarized-light)
+    )
+)
+
+;; End solarized setup
+;; --------------------------------------------------------------------------------
+
+;; --------------------------------------------------------------------------------
+;; Start Aquamacs tabbar-mode setup (it looks better than the default)
+;; Switch tabs with C-c C-<arrow>
+;;
+;; See https://github.com/dholm/tabbar
+;; See https://emacswiki.org/emacs/TabBarMode
+
+;(setq header-line-inhibit-window-list ())
+
+(add-to-list 'load-path "~/src/tabbar")
+(require 'tabbar)
+(tabbar-mode)
+
+;; customize to show all normal files in one group and emacs files in another group
+
+(defun my-tabbar-buffer-groups ()
+  "Returns the name of the tab group names the current buffer belongs to.
+ There are two groups: Emacs buffers (those whose name starts with '*', plus
+ dired buffers), and the rest.  This works at least with Emacs v24.2 using
+ tabbar.el v1.7."
+  (list (cond ((string-equal "*" (substring (buffer-name) 0 1)) "emacs")
+              ((eq major-mode 'dired-mode) "emacs")
+              (t "user"))))
+
+(setq tabbar-buffer-groups-function 'my-tabbar-buffer-groups)
+
+;; Shpw all tabs in a single group
+;; (setq tabbar-buffer-groups-function (lambda () (list "All")) )
+
+;; Simple tabbar mode with little overhead
+;; See https://github.com/andrewhills/SimpleTabbarMode
+;;
+;; (add-to-list 'load-path "~/src/SimpleTabbarMode")
+;; (require 'simple-tabbar-mode nil t)
+
+;; End Aquamacs tabbar-mode setup
+;; --------------------------------------------------------------------------------
+
+;; Text editing stuff
+ 
+(global-set-key (kbd "M-:") 'goto-line)
+(global-set-key (kbd "M-p") 'fill-paragraph)
+(global-set-key (kbd "C-<kp-left>") 'backward-word)
+(global-set-key (kbd "C-<kp-right>") 'forward-word)
+
+(autoload 'apache-mode "apache-mode" "autoloaded" t)
+(autoload 'filladapt-mode "filladapt-mode" "Minor mode autoloaded" t)
+
+;; --------------------------------------------------------------------------------
+;; Development file-specific editing configurations
+
+;; Add modes for file extensions that don't work by default
+
+(add-to-list 'auto-mode-alist '("\\.conf$" . apache-mode))
+
+;; Use spaces instead of tabs for indenting
+
+(setq-default indent-tabs-mode nil
+              tab-width 4
+              c-default-style "linux")
+
+; Add mode hooks for customizing various modes. add-hook takes a hook and a function to add to the hook.
+; See https://www.gnu.org/software/emacs/manual/html_node/emacs/Hooks.html
+;
+; Define hook functions
+; See https://www.gnu.org/software/emacs/manual/html_node/eintr/defun.html
+
+;; --------------------------------------------------------------------------------
+;; FORTRAN
+
+(defun my-fortran-mode-hook ()
+  "Fortran-specific editing configuration"
+  (setq fortran-do-indent 3
+        fortran-if-indent 3
+        fortran-continuation-indent 5
+        fortran-check-all-num-for-matching-do nil
+        fortran-comment-indent-style 'fixed
+        fortran-comment-line-column 7
+        fortran-comment-region "c-")
+  )
+(add-hook 'fortran-mode-hook 'my-fortran-mode-hook)
+
+;; --------------------------------------------------------------------------------
+;; JavaScript
+;; Use PSR-2. See https://www.emacswiki.org/emacs/IndentingC
+
+;; (add-to-list 'auto-mode-alist '("\\.js$" . javascript-mode))
+(add-to-list 'auto-mode-alist '("\\.json$" . javascript-mode))
+
+(defun my-javascript-mode-hook ()
+  "JS-specific editing configuration"
+  (setq js-indent-level 4)
+  )
+(add-hook 'javascript-mode-hook 'my-javascript-mode-hook)
+
+;; --------------------------------------------------------------------------------
+;; PHP
+;; Use https://github.com/ejmr/php-mode.git
+
+(add-to-list 'load-path "~/src/php-mode")
+(autoload 'php-mode "php-mode" "Major mode for editing php code." t)
+(add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
+
+(defun my-php-mode-hook ()
+  "My PHP mode configuration."
+  (setq indent-tabs-mode nil
+        tab-width 4
+        fill-column 100
+        c-basic-offset 4
+        c-default-style "linux")
+  'turn-off-auto-fill
+  (php-enable-psr2-coding-style)
+)
+(add-hook 'php-mode-hook 'my-php-mode-hook)
+
+;; --------------------------------------------------------------------------------
+;; C
+
+(defun my-c-mode-hook ()
+  "C-specific editing configuration"
+  (setq indent-tabs-mode nil
+        tab-width 4
+        c-basic-offset 4
+        c-default-style "linux")
+  'turn-off-auto-fill
+  )
+(add-hook 'c-mode-hook 'my-c-mode-hook)
+
+;; --------------------------------------------------------------------------------
+;; Markdown
+
+(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+
+;; --------------------------------------------------------------------------------
+;; Text files
+
+(defun my-text-mode-hook ()
+  "Text-mode configuration"
+  (setq auto-fill-mode 1)
+  'turn-on-filladapt-mode
+  )
+(add-hook 'text-mode-hook 'my-text-mode-hook)
+
+;; End Development file-specific editing configurations
+;; --------------------------------------------------------------------------------
+
+; ----------------------------------------------------------------------
+; Visual customizations
+; ----------------------------------------------------------------------
+
+; Custom variables (can be editing using M-x customize-group)
+
+(custom-set-variables
+ '(c++-mode-hook (quote (turn-off-auto-fill)))
+ '(c-offsets-alist (quote ((substatement-open . 0))))
+ '(emacs-lisp-mode-hook (quote (turn-on-font-lock)))
+ '(fill-column 100))
+
+; --------------------------------------------------------------------------------
+; Unfill a paragraph (join multiple lines into one)
+
+(defun unfill-paragraph ()
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive)
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil)))
+
+; --------------------------------------------------------------------------------
+; Set up a mechanism for auto-saving of the scratch buffer
+
+(defvar persistent-scratch-filename 
+  "~/.emacs.d/persistent-scratch"
+  "Location of *scratch* file contents for persistent-scratch.")
+
+; Save the contents of scratch
+
+(defun save-persistent-scratch ()
+  "Write the contents of *scratch* to the file name PERSISTENT-SCRATCH-FILENAME."
+  (with-current-buffer (get-buffer "*scratch*")
+    (write-region (point-min) (point-max) 
+                  persistent-scratch-filename)))
+
+; Load the contents of scratch
+
+(defun load-persistent-scratch ()
+  "Load the contents of PERSISTENT-SCRATCH-FILENAME into the scratch buffer, clearing its contents first."
+  (if (file-exists-p persistent-scratch-filename)
+      (with-current-buffer (get-buffer "*scratch*")
+        (delete-region (point-min) (point-max))
+        (insert-file-contents persistent-scratch-filename))))
+;        (shell-command (format "cat %s" persistent-scratch-filename) (current-buffer)))))
+
+; Set up the load on startup and add a hook to save it when emacs is killed
+
+(load-persistent-scratch)
+(push #'save-persistent-scratch kill-emacs-hook)
+
+; End persistent scratch
+; --------------------------------------------------------------------------------
+
+;; --------------------------------------------------------------------------------
+;; Function definitions
+
+(defun dos-to-unix ()
+  "Strip CRs from current buffer."
+  (interactive)
+  ;(save-excusion
+  (progn
+    (beginning-of-buffer)
+    (replace-string "\C-M" ""))
+)
+
+(defun join-lines ()
+  "Join multiple lines together"
+  (interactive)
+  (setq fill-column 100000)
+  (fill-paragraph nil)
+  (setq fill-column 100)
+  )
+
+;; End function definitions
+;; --------------------------------------------------------------------------------

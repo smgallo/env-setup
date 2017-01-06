@@ -1,0 +1,21 @@
+# --------------------------------------------------------------------------------
+# Set up .environment files
+
+# Directory to search
+ENV_DIR="${HOME}/.bash_environment"
+
+# Extension to look for
+SHELL_EXT=sh
+
+if [ -d $ENV_DIR ]; then
+        files=`/bin/ls -1 $ENV_DIR/*.${SHELL_EXT}`
+        for file in $files; do
+                if [ ! -x $file ]; then continue; fi
+                base=`basename $file`
+                base=`echo $base|sed 's/\..\{0,1\}sh//'`;
+                . $file
+        done
+fi
+
+unset ENV_DIR
+unset SHELL_EXT

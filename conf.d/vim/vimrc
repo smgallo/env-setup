@@ -1,0 +1,51 @@
+" Better colors for a dark/light background
+if has('gui_running')
+    set background=light
+    set lines=40 columns=100
+else
+    set background=light
+endif
+
+" Option for low contrast
+" let g:solarized_contrast="high"
+" Solarized color scheme: http://ethanschoonover.com/solarized
+colorscheme solarized
+
+" Variables that may need to be set for the solarized color palette
+" let g:solarized_termcolors=256
+" May need to set this if the terminal only supports 256 colors (especially in light mode)
+set t_Co=256
+
+" Syntax hilighting on
+syntax enable
+
+" Show line numbers (can't cut and paste in the terminal)
+" set number
+
+" Indent 4 spaces per indent and Use spaces for indentation
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+" Indent relative to current line
+" set autoindent
+" set cindent
+" Don't automatically continue comments on the next line
+set formatoptions-=cro
+
+" Show matching braces
+set showmatch
+
+" Show line/column information
+set ruler
+
+" Disable beeps
+set vb t_vb=
+
+" Do not hilight search fields
+set nohls
+
+" Force vim to reset the terminal and clear the color scheme.
+" See http://vimdoc.sourceforge.net/htmldoc/autocmd.html
+" See http://superuser.com/questions/942597/why-does-my-vim-colorscheme-stay-after-i-close-vim
+autocmd VimLeave * printf '\e[0m'
