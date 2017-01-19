@@ -203,7 +203,17 @@
 ;; --------------------------------------------------------------------------------
 ;; Markdown
 
+(add-to-list 'load-path "~/src/markdown-mode")
+(autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+
+;; Don't override my fill-paragraph
+
+(defun my-markdown-mode-hook ()
+  "Markdown mode configuration"
+  (define-key markdown-mode-map (kbd "M-p") nil)
+  )
+(add-hook 'markdown-mode-hook 'my-markdown-mode-hook)
 
 ;; --------------------------------------------------------------------------------
 ;; Text files
