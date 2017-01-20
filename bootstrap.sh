@@ -36,6 +36,7 @@ while read installer ; do
     file=`basename $installer`
 
     # Only run executable installers
+    # Use git update-index --chmod=+x <file> to preserve execute permissions
 
     if [ -x $installer ]; then
         echo "Running installer: $installer"
