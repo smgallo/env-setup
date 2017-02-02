@@ -170,6 +170,8 @@
 ;; --------------------------------------------------------------------------------
 ;; PHP
 ;; Use https://github.com/ejmr/php-mode.git
+;; Note that this mode sets the fill-column when selecting the coding style so it
+;; needs to be overriden afterwards.
 
 (add-to-list 'load-path "~/src/php-mode")
 (autoload 'php-mode "php-mode" "Major mode for editing php code." t)
@@ -177,13 +179,14 @@
 
 (defun my-php-mode-hook ()
   "My PHP mode configuration."
+  (php-enable-psr2-coding-style)
   (setq indent-tabs-mode nil
         tab-width 4
         fill-column 100
         c-basic-offset 4
-        c-default-style "linux")
+        c-default-style "linux"
+        fill-column 90)
   'turn-off-auto-fill
-  (php-enable-psr2-coding-style)
 )
 (add-hook 'php-mode-hook 'my-php-mode-hook)
 
