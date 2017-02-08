@@ -14,8 +14,4 @@ alias h-sciimpact="ssh 199.109.192.233"
 alias h-smgallo-cloud-dev="ssh -A 199.109.192.5"
 alias h-openxdmod-dev="ssh -A 199.109.192.28"
 alias h-redflydev="ssh -A 199.109.193.135"
-x()
-{
-	gnome-terminal --geometry=100x35 -e "ssh -X $1"
-}
-
+alias git-show-files="git show --pretty='' --name-only"
