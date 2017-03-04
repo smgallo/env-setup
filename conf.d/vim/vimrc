@@ -52,9 +52,10 @@ set expandtab
 " set autoindent
 " set cindent
 " Don't automatically continue comments on the next line
-" Some plugin is loaded after the .vimrc file and overwrites formatoptions
+" Some plugins (e.g., filetype plugins) are loaded after the .vimrc file and overwrite
+" options.
 " Running ':verb set fo' will show you where it was last set
-autocmd BufNewFile,BufRead * setlocal formatoptions-=cro
+autocmd BufNewFile,BufRead * setlocal formatoptions-=cro foldmethod=manual
 
 " Show matching braces
 set showmatch
