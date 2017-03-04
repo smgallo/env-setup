@@ -77,7 +77,7 @@ while read installer ; do
 
     if [ 1 -eq $ONLY_LIST ]; then
         echo "$name ($installer) $enabled"
-    elif [ "enabled" = $enabled ]; then
+    elif [ "$enabled" = "enabled" ]; then
         if [ -n "$ONLY_INSTALLER" -a $name = "$ONLY_INSTALLER" -o -z "$ONLY_INSTALLER" ]; then
             echo "Running installer: $name ($installer)"
             ( cd $dir && bash $file ) >>$LOG_FILE 2>&1

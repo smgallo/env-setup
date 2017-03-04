@@ -1,3 +1,19 @@
+" Plugin manager https://github.com/junegunn/vim-plug
+" Specify a directory for plugins
+call plug#begin('~/.vim/plugged')
+
+" Shorthand notation fetches https://github.com/jamessan/vim-gnupg
+Plug 'jamessan/vim-gnupg'
+
+Plug 'altercation/vim-colors-solarized'
+
+Plug 'plasticboy/vim-markdown'
+
+call plug#end()
+
+" Detect the system name for customizations
+let s:uname=substitute(system('uname'), '\n', '', '')
+
 " Better colors for a dark/light background
 if has('gui_running')
     set background=light
@@ -10,9 +26,13 @@ endif
 "
 " Option for low contrast
 " let g:solarized_contrast="high"
+"
 " Variables that may need to be set for the solarized color palette. Enable this in OSX terminal when
 " using Solarized color scheme. Disable it in Konsole or the background is yellowish.
-" let g:solarized_termcolors=256
+if s:uname == "Darwin"
+    let g:solarized_termcolors=256
+endif
+
 " May need to set this if the terminal only supports 256 colors (especially in light mode)
 set t_Co=256
 colorscheme solarized
@@ -32,7 +52,9 @@ set expandtab
 " set autoindent
 " set cindent
 " Don't automatically continue comments on the next line
-set formatoptions-=cro
+" Some plugin is loaded after the .vimrc file and overwrites formatoptions
+" Running ':verb set fo' will show you where it was last set
+autocmd BufNewFile,BufRead * setlocal formatoptions-=cro
 
 " Show matching braces
 set showmatch
