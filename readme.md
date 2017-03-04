@@ -14,4 +14,13 @@ Run `bootstrap.sh`
 
 `bootstrap.sh` defines functions, performs initial setup, and finds all executable `install.sh` files and executes them. To disable a particular component, simply set the file to non-executable with `chmod a-x <file>`
 
+```
+bootstrap.sh [-l] [-v] [-h] [-i <name>]
+Where
+  -l List available installers and their status
+  -i <name> Run only the named installer
+  -v Verbose mode
+  -h Display this help`
+```
+
 Inspired by https://github.com/plessbd/setup
