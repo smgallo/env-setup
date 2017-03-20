@@ -52,10 +52,15 @@ set expandtab
 " set autoindent
 " set cindent
 " Don't automatically continue comments on the next line
+" set formatoptions-=cro
+
 " Some plugins (e.g., filetype plugins) are loaded after the .vimrc file and overwrite
-" options.
-" Running ':verb set fo' will show you where it was last set
-autocmd BufNewFile,BufRead * setlocal formatoptions-=cro foldmethod=manual
+" options defined here.
+" Running ':verb set fo' will show you where an option was last set
+" Provide a generic overide for options that filetype plugins override. We can apply it
+" to all filetypes or whenever a new file is read
+" autocmd BufNewFile,BufRead * setlocal formatoptions-=cro foldmethod=manual
+autocmd Filetype * setlocal formatoptions-=cro foldmethod=manual
 
 " Show matching braces
 set showmatch
