@@ -21,6 +21,6 @@ fi
 
 # Install the plugins listed in the vimrc file
 
-vim -c 'PlugStatus|q|q'
+vim -u vimrc.tmp -c 'PlugInstall|q|q' >/dev/null </dev/null
 
 exit 0

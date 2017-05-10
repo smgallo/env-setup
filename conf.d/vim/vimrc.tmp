@@ -1,0 +1,13 @@
+call plug#begin('~/.vim/plugged')
+
+" Shorthand notation fetches https://github.com/jamessan/vim-gnupg
+Plug 'jamessan/vim-gnupg'
+
+Plug 'altercation/vim-colors-solarized'
+
+Plug 'plasticboy/vim-markdown'
+
+" Tab variable completion
+Plug 'ervandew/supertab'
+
+call plug#end()
