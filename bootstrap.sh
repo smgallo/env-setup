@@ -7,7 +7,9 @@ VERBOSE=0
 ONLY_LIST=0
 ONLY_INSTALLER=
 
-. functions.sh
+if [ -f functions.sh ]; then
+    . ./functions.sh
+fi
 
 display_help () {
     cat<<EOF

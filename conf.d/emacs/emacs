@@ -111,7 +111,10 @@
 ;; --------------------------------------------------------------------------------
 
 ;; Text editing stuff
- 
+
+;; Enable windows-style cut and paste when the mark is active
+(cua-mode) 
+
 (global-set-key (kbd "M-:") 'goto-line)
 (global-set-key (kbd "M-p") 'fill-paragraph)
 (global-set-key (kbd "C-<kp-left>") 'backward-word)

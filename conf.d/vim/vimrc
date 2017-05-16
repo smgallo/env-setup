@@ -51,6 +51,9 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 
+" Shortcut for toggling paste mode (disabling auto-indent when pasting)
+set pastetoggle=<F3>
+
 " Indent relative to current line
 " set autoindent
 " set cindent
