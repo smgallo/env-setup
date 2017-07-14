@@ -45,6 +45,7 @@ cat<<EOF >$PHPCS_DIR/phpcs-xdmod-rules.xml
   <rule ref="PSR2">
       <exclude name="PSR2.Methods.FunctionCallSignature.SpaceBeforeCloseBracket" />
       <exclude name="PSR2.Methods.FunctionClosingBrace.SpacingBeforeClose" />
+      <exclude name="PSR2.Classes.PropertyDeclaration.Underscore" />
       <exclude name="PSR2.ControlStructures.ControlStructureSpacing.SpaceBeforeCloseBrace" />
       <exclude name="PSR2.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace" />
       <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine" />
@@ -56,6 +57,7 @@ cat<<EOF >$PHPCS_DIR/phpcs-xdmod-rules.xml
       <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingBeforeClose" />
       <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingAfterOpen" />
       <exclude name="Squiz.WhiteSpace.ControlStructureSpacing.SpacingAfterOpenBrace" />
+      <exclude name="Squiz.Classes.ValidClassName.NotCamelCaps" />
   </rule>
   <rule ref="Generic.Files.LineLength">
       <properties>
