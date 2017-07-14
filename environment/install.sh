@@ -17,6 +17,9 @@ ENV
 fi
 
 cp bash_init_env $HOME/.bash_init_env
-cp -a bash_environment $HOME/.bash_environment
+if [ ! -d $HOME/.bash_environment ]; then
+    mkdir $HOME/.bash_environment
+fi
+cp -a bash_environment/* $HOME/.bash_environment
 
 exit 0
