@@ -1,4 +1,9 @@
 " Plugin manager https://github.com/junegunn/vim-plug
+"
+" Run
+" :PlugInstall to install new plugins
+" :PlugStatus to view plugin status
+"
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
 
@@ -109,5 +114,8 @@ let g:syntastic_check_on_wq = 0
 
 " See https://github.com/vim-syntastic/syntastic/blob/master/doc/syntastic-checkers.txt
 " Note that only the part after 'syntastic-javascript-' is needed
+
+" Requires jsonlint to be installed and in the path. See https://jsonlint.com/ or 'npm install jsonlint'
 let g:syntastic_json_checkers = ['jsonlint']
+" Requires phpcs to be installed and in the path. See https://github.com/squizlabs/PHP_CodeSniffer
 let g:syntastic_php_checkers = ['phpcs']
