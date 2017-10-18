@@ -12,6 +12,12 @@ Plug 'plasticboy/vim-markdown'
 " Tab variable completion
 Plug 'ervandew/supertab'
 
+" Syntax checking with many plugins
+Plug 'vim-syntastic/syntastic'
+
+" JSON-specific mode rather than the default javascript mode
+Plug 'elzr/vim-json'
+
 call plug#end()
 
 " Detect the system name for customizations
@@ -25,6 +31,7 @@ else
     set background=light
 endif
 
+" --------------------------------------------------------------------------------
 " Solarized color scheme: http://ethanschoonover.com/solarized
 "
 " Option for low contrast
@@ -39,6 +46,9 @@ endif
 " May need to set this if the terminal only supports 256 colors (especially in light mode)
 set t_Co=256
 colorscheme solarized
+
+" --------------------------------------------------------------------------------
+" General options
 
 " Syntax hilighting on
 syntax enable
@@ -85,3 +95,19 @@ set nohls
 " See http://vimdoc.sourceforge.net/htmldoc/autocmd.html
 " See http://superuser.com/questions/942597/why-does-my-vim-colorscheme-stay-after-i-close-vim
 autocmd VimLeave * printf '\e[0m'
+
+" --------------------------------------------------------------------------------
+" Syntastic configuration
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" See https://github.com/vim-syntastic/syntastic/blob/master/doc/syntastic-checkers.txt
+" Note that only the part after 'syntastic-javascript-' is needed
+let g:syntastic_json_checkers = ['jsonlint']
+let g:syntastic_php_checkers = ['phpcs']
