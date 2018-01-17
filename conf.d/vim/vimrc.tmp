@@ -10,4 +10,13 @@ Plug 'plasticboy/vim-markdown'
 " Tab variable completion
 Plug 'ervandew/supertab'
 
+" Syntax checking with many plugins
+Plug 'vim-syntastic/syntastic'
+
+" JSON-specific mode rather than the default javascript mode
+Plug 'elzr/vim-json'
+
+" Docker file syntax hilighting
+Plug 'ekalinin/Dockerfile.vim'
+
 call plug#end()
