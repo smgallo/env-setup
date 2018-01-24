@@ -19,4 +19,7 @@ Plug 'elzr/vim-json'
 " Docker file syntax hilighting
 Plug 'ekalinin/Dockerfile.vim'
 
+" Dark code syntax mode that is easier on my eyes than solarized dark
+Plug 'tomasiser/vim-code-dark'
+
 call plug#end()

@@ -26,6 +26,9 @@ Plug 'elzr/vim-json'
 " Docker file syntax hilighting
 Plug 'ekalinin/Dockerfile.vim'
 
+" Dark code syntax mode that is easier on my eyes than solarized dark
+Plug 'tomasiser/vim-code-dark'
+
 call plug#end()
 
 " Detect the system name for customizations
@@ -54,6 +57,8 @@ endif
 " May need to set this if the terminal only supports 256 colors (especially in light mode)
 set t_Co=256
 colorscheme solarized
+
+" colorscheme codedark
 
 " --------------------------------------------------------------------------------
 " General options
