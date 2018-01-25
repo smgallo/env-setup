@@ -38,6 +38,12 @@ let s:uname=substitute(system('uname'), '\n', '', '')
 if has('gui_running')
     set background=light
     set lines=40 columns=100
+" Set the font for windows
+"    set guifont=Consolas:h9:cANSI
+" Set the font for linux (must have the font installed)
+    set guifont=Consolas\ 10
+"    set guifont=Source\ Codei\ Proi\ Light\ 9
+
 else
     set background=light
 endif
