@@ -64,7 +64,7 @@ set t_Co=256
 colorscheme codedark
 
 " Customize color scheme based on file type
-autocmd FileType markdown colorscheme solarized
+autocmd FileType markdown colorscheme solarized | set background=dark
 
 " --------------------------------------------------------------------------------
 " General options
