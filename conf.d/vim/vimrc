@@ -43,6 +43,8 @@ else
 endif
 
 " --------------------------------------------------------------------------------
+" Color schemes
+"
 " Solarized color scheme: http://ethanschoonover.com/solarized
 "
 " Option for low contrast
@@ -56,9 +58,13 @@ endif
 
 " May need to set this if the terminal only supports 256 colors (especially in light mode)
 set t_Co=256
-colorscheme solarized
+" colorscheme solarized
 
-" colorscheme codedark
+" codedark is easier on my eyes for coding
+colorscheme codedark
+
+" Customize color scheme based on file type
+autocmd FileType markdown colorscheme solarized
 
 " --------------------------------------------------------------------------------
 " General options
