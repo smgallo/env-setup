@@ -122,6 +122,12 @@ set nohls
 autocmd VimLeave * printf '\e[0m'
 
 " --------------------------------------------------------------------------------
+" Markdown configuration
+
+" In markdown mode, don't automatically indent lists. I want to do this manually.
+let g:vim_markdown_new_list_item_indent = 0
+
+" --------------------------------------------------------------------------------
 " Syntastic configuration
 set statusline+=%f
 set statusline+=\ %#warningmsg#
