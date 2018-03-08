@@ -122,6 +122,12 @@ set nohls
 autocmd VimLeave * printf '\e[0m'
 
 " --------------------------------------------------------------------------------
+" vim-json config (https://github.com/elzr/vim-json)
+
+" Disable concealing of quotes by default. Makes it easier to cut and paste.
+let g:vim_json_syntax_conceal = 0
+
+" --------------------------------------------------------------------------------
 " Markdown configuration
 
 " In markdown mode, don't automatically indent lists. I want to do this manually.
