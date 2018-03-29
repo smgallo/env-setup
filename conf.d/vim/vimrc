@@ -29,6 +29,14 @@ Plug 'ekalinin/Dockerfile.vim'
 " Dark code syntax mode that is easier on my eyes than solarized dark
 Plug 'tomasiser/vim-code-dark'
 
+" Coffeescript syntax
+Plug 'kchmck/vim-coffee-script'
+
+" Improved tabs when running in the terminal instead of implementing it myself as described in:
+" https://vi.stackexchange.com/questions/11276/print-full-filename-in-tabs-when-using-terminal-vim
+" http://vimhelp.appspot.com/tabpage.txt.html#setting-tabline
+Plug 'webdevel/tabulous'
+
 call plug#end()
 
 " Detect the system name for customizations
@@ -42,7 +50,7 @@ if has('gui_running')
 "    set guifont=Consolas:h9:cANSI
 " Set the font for linux (must have the font installed)
     set guifont=Consolas\ 10
-"    set guifont=Source\ Codei\ Proi\ Light\ 9
+"    set guifont=Source\ Code\ Pro\ Light\ 9
 
 else
     set background=light
@@ -85,6 +93,7 @@ syntax enable
 set tabstop=4
 set shiftwidth=4
 set expandtab
+set textwidth=100
 
 " Shortcut for toggling paste mode (disabling auto-indent when pasting)
 set pastetoggle=<F3>
@@ -116,10 +125,31 @@ set vb t_vb=
 " Do not hilight search fields
 set nohls
 
-" Force vim to reset the terminal and clear the color scheme.
+" Force vim to reset the terminal and clear the color scheme (if running in a terminal).
 " See http://vimdoc.sourceforge.net/htmldoc/autocmd.html
 " See http://superuser.com/questions/942597/why-does-my-vim-colorscheme-stay-after-i-close-vim
-autocmd VimLeave * printf '\e[0m'
+if ! has('gui_running')
+    autocmd VimLeave * printf '\e[0m'
+endif
+
+" Display filename (tail) and plus for modified files in tabs instead of whole path
+set guitablabel=%t\ %M
+
+" --------------------------------------------------------------------------------
+" File Explorer (netrw) options :Vexplore
+" See http://vimdoc.sourceforge.net/htmldoc/pi_netrw.html
+
+let g:netrw_banner = 0
+" Listing style (0=simple, 1=show timestamps, 2=multi-column, 3=tree)
+let g:netrw_liststyle = 3
+" Open new files in (0=same window, 1=hsplit, 2=vsplit, 3=new tab)
+let g:netrw_browse_split = 3
+" Split right
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+
+" Don't show dotfiles
+let g:netrw_list_hide='^\.'
 
 " --------------------------------------------------------------------------------
 " vim-json config (https://github.com/elzr/vim-json)
