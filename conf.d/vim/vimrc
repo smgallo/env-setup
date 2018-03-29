@@ -44,16 +44,16 @@ let s:uname=substitute(system('uname'), '\n', '', '')
 
 " Better colors for a dark/light background
 if has('gui_running')
-    set background=light
+    set background=dark
     set lines=40 columns=100
 " Set the font for windows
 "    set guifont=Consolas:h9:cANSI
 " Set the font for linux (must have the font installed)
-    set guifont=Consolas\ 10
+    set guifont=Consolas\ 9
 "    set guifont=Source\ Code\ Pro\ Light\ 9
 
 else
-    set background=light
+    set background=dark
 endif
 
 " --------------------------------------------------------------------------------
@@ -72,13 +72,16 @@ endif
 
 " May need to set this if the terminal only supports 256 colors (especially in light mode)
 set t_Co=256
-" colorscheme solarized
 
 " codedark is easier on my eyes for coding
 colorscheme codedark
 
-" Customize color scheme based on file type
-autocmd FileType markdown colorscheme solarized | set background=dark
+" Customize color scheme based on file type when entering a buffer. I use this because
+" markdown looks better in Solarized. If we set the colorscheme based on the FileType:
+"   autocmd FileType markdown colorscheme solarized | set background=dark
+" then it gets changed for markdown on tab switch and doesn't get changed back.
+autocmd BufEnter * colorscheme codedark
+autocmd BufEnter *.md colorscheme solarized | set background=dark
 
 " --------------------------------------------------------------------------------
 " General options
@@ -142,8 +145,8 @@ set guitablabel=%t\ %M
 let g:netrw_banner = 0
 " Listing style (0=simple, 1=show timestamps, 2=multi-column, 3=tree)
 let g:netrw_liststyle = 3
-" Open new files in (0=same window, 1=hsplit, 2=vsplit, 3=new tab)
-let g:netrw_browse_split = 3
+" Open new files in (0=same window, 1=hsplit, 2=vsplit, 3=new tab, 4=prev window)
+let g:netrw_browse_split = 4
 " Split right
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
