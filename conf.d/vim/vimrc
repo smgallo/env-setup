@@ -86,6 +86,9 @@ autocmd BufEnter *.md colorscheme solarized | set background=dark
 " --------------------------------------------------------------------------------
 " General options
 
+" case-sensitive if search contains an uppercase character
+set smartcase
+
 " Syntax hilighting on
 syntax enable
 
@@ -100,6 +103,9 @@ set textwidth=100
 
 " Shortcut for toggling paste mode (disabling auto-indent when pasting)
 set pastetoggle=<F3>
+
+" Map ctrl-a to select all text on the screen (rather than incrementing an integer)
+map <C-a> <esc>ggVG<CR>
 
 " Indent relative to current line
 " set autoindent
