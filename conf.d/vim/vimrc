@@ -17,9 +17,6 @@ Plug 'plasticboy/vim-markdown'
 " Tab variable completion
 Plug 'ervandew/supertab'
 
-" Syntax checking with many plugins
-Plug 'vim-syntastic/syntastic'
-
 " JSON-specific mode rather than the default javascript mode
 Plug 'elzr/vim-json'
 
@@ -36,6 +33,15 @@ Plug 'kchmck/vim-coffee-script'
 " https://vi.stackexchange.com/questions/11276/print-full-filename-in-tabs-when-using-terminal-vim
 " http://vimhelp.appspot.com/tabpage.txt.html#setting-tabline
 Plug 'webdevel/tabulous'
+
+" Syntax checking with many plugins
+" Plug 'vim-syntastic/syntastic'
+
+" Realtime syntax checking for Vim 8+
+Plug 'w0rp/ale'
+
+" Show a git diff in the gutter
+Plug 'airblade/vim-gitgutter'
 
 call plug#end()
 
