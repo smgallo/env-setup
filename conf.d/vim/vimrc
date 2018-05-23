@@ -43,6 +43,25 @@ Plug 'w0rp/ale'
 " Show a git diff in the gutter
 Plug 'airblade/vim-gitgutter'
 
+" Improved status line
+Plug 'itchyny/lightline.vim'
+
+" Change surrpunding characters
+Plug 'tpope/vim-surround'
+
+" Add :Rename to rename a file
+Plug 'danro/rename.vim'
+
+" Fuzzy file and tag search. Note that this expects fzf to be installed as per https://github.com/junegunn/fzf
+" cd ~/src && git clone https://github.com/junegunn/fzf.git
+" cd fzf && ./install
+Plug '~/src/fzf'
+Plug 'junegunn/fzf.vim'
+
+" Search within files. Requires https://github.com/ggreer/the_silver_searcher
+" Be careful about searching at the root of a large code tree!
+Plug 'mileszs/ack.vim'
+
 call plug#end()
 
 " Detect the system name for customizations
@@ -86,13 +105,14 @@ colorscheme codedark
 " markdown looks better in Solarized. If we set the colorscheme based on the FileType:
 "   autocmd FileType markdown colorscheme solarized | set background=dark
 " then it gets changed for markdown on tab switch and doesn't get changed back.
-autocmd BufEnter * colorscheme codedark
 autocmd BufEnter *.md colorscheme solarized | set background=dark
+autocmd BufLeave *.md colorscheme codedark
 
 " --------------------------------------------------------------------------------
 " General options
 
-" case-sensitive if search contains an uppercase character
+" Case-sensitive if search contains an uppercase character
+set ignorecase
 set smartcase
 
 " Syntax hilighting on
@@ -106,12 +126,24 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 set textwidth=100
+" Since in PHP braces are not required inside 'case/default' blocks, by default they are indented at
+" the same level than the 'switch()' to avoid unnecessary indentation
+" indent 'case:' and 'default:' statements in switch() blocks:
+let g:PHP_vintage_case_default_indent = 1
 
 " Shortcut for toggling paste mode (disabling auto-indent when pasting)
 set pastetoggle=<F3>
 
 " Map ctrl-a to select all text on the screen (rather than incrementing an integer)
 map <C-a> <esc>ggVG<CR>
+
+" Search for the tags file. The ';' at the end causes a recursively upward search
+" Use './tags;' to start searching in the directory of the current file rather than
+" Vim's working directory
+set tags=.tags;
+
+" Set current directory the same as the directory of the file
+set autochdir
 
 " Indent relative to current line
 " set autoindent
@@ -128,8 +160,9 @@ map <C-a> <esc>ggVG<CR>
 " Running :set <option>? will display the options current value
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o foldmethod=manual
 
-" Show matching braces
+" Show matching braces but not gt/lt or we get a visual bell on object property dereferences
 set showmatch
+set matchpairs-=<:>
 
 " Show line/column information
 set ruler
@@ -179,24 +212,42 @@ let g:vim_json_syntax_conceal = 0
 let g:vim_markdown_new_list_item_indent = 0
 
 " --------------------------------------------------------------------------------
-" Syntastic configuration
-set statusline+=%f
-set statusline+=\ %#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" Lightline configuration
+" Fix for dark/missing status line
+set laststatus=2
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+" --------------------------------------------------------------------------------
+" ack.vim configuration
+
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+" --------------------------------------------------------------------------------
+" Ale configuration
+
+" Don't constantly lint, give me a chance to type (default 200ms)
+let g:ale_lint_delay=5000
+
+" --------------------------------------------------------------------------------
+" Syntastic configuration
+"set statusline+=%f
+"set statusline+=\ %#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
 
 " See https://github.com/vim-syntastic/syntastic/blob/master/doc/syntastic-checkers.txt
 " See https://github.com/vim-syntastic/syntastic/blob/master/doc/syntastic.txt
 " Note that only the part after 'syntastic-javascript-' is needed
-let g:syntastic_json_checkers = ['jsonlint']
-let g:syntastic_php_checkers = ['php', 'phpcs']
+"let g:syntastic_json_checkers = ['jsonlint']
+"let g:syntastic_php_checkers = ['php', 'phpcs']
 " let g:syntastic_php_php_phpcs_exec = "/home/smgallo/bin/phpcs --standard=~/src/xdmod-qa/style/configs/phpcs.xml"
-let g:syntastic_php_phpcs_args = '--standard=/home/smgallo/src/xdmod-qa/style/configs/phpcs.xml'
+"let g:syntastic_php_phpcs_args = '--standard=/home/smgallo/src/xdmod-qa/style/configs/phpcs.xml'
 " Extra debugging information. Useful for testing arg and exec modification. Use ":mes" to view messages in vim
 " let g:syntastic_debug = 7
 " let g:syntastic_debug_file = "~/syntastic.log"
