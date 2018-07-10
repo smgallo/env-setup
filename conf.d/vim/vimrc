@@ -70,7 +70,7 @@ let s:uname=substitute(system('uname'), '\n', '', '')
 " Better colors for a dark/light background
 if has('gui_running')
     set background=dark
-    set lines=40 columns=100
+    set lines=60 columns=100
 " Set the font for windows
 "    set guifont=Consolas:h9:cANSI
 " Set the font for linux (must have the font installed)
@@ -118,14 +118,21 @@ set smartcase
 " Syntax hilighting on
 syntax enable
 
+" Allow any buffer to be hidden (keeping its changes) without first writing to a file.
+" Useful when switching buffers during testing.
+set hidden
+
 " Show line numbers (can't cut and paste in the terminal)
-" set number
+if has('gui_running')
+    set number
+endif
 
 " Indent 4 spaces per indent and Use spaces for indentation
 set tabstop=4
 set shiftwidth=4
 set expandtab
 set textwidth=100
+
 " Since in PHP braces are not required inside 'case/default' blocks, by default they are indented at
 " the same level than the 'switch()' to avoid unnecessary indentation
 " indent 'case:' and 'default:' statements in switch() blocks:
@@ -136,6 +143,9 @@ set pastetoggle=<F3>
 
 " Map ctrl-a to select all text on the screen (rather than incrementing an integer)
 map <C-a> <esc>ggVG<CR>
+" Map Ctrl-Backspace/Del to delete the previous/next word in insert mode.
+imap <C-BS> <C-W>
+imap <C-Del> <C-O>dw
 
 " Search for the tags file. The ';' at the end causes a recursively upward search
 " Use './tags;' to start searching in the directory of the current file rather than
