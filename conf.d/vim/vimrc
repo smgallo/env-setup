@@ -102,11 +102,9 @@ set t_Co=256
 colorscheme codedark
 
 " Customize color scheme based on file type when entering a buffer. I use this because
-" markdown looks better in Solarized. If we set the colorscheme based on the FileType:
-"   autocmd FileType markdown colorscheme solarized | set background=dark
-" then it gets changed for markdown on tab switch and doesn't get changed back.
-autocmd BufEnter *.md colorscheme solarized | set background=dark
-autocmd BufLeave *.md colorscheme codedark
+" markdown looks better in Solarized.
+"autocmd BufEnter *.md colorscheme solarized | set background=dark
+"autocmd BufLeave *.md colorscheme codedark
 
 " --------------------------------------------------------------------------------
 " General options
@@ -235,9 +233,11 @@ endif
 
 " --------------------------------------------------------------------------------
 " Ale configuration
+" Note that Ale will use the phpcs.xml file in the root directory
 
 " Don't constantly lint, give me a chance to type (default 200ms)
 let g:ale_lint_delay=5000
+
 
 " --------------------------------------------------------------------------------
 " Syntastic configuration

@@ -8,7 +8,7 @@ alias ls="/bin/ls -FxC"
 alias rm="/bin/rm -i"
 alias gen-ctags="ctags -R -o .tags --exclude=.git --exclude=vendor --exclude=.diff --exclude=logs --fields=+KSn"
 # Hosts
-alias h-xdcdb-mirror="ssh -A xdcdb-mirror.ccr.xdmod.org"
+alias h-xdcdb-backup="ssh -A xdcdb-backup.ccr.xdmod.org"
 alias h-sciimpact="ssh 199.109.192.233"
-alias h-smgallo-dev='ssh -A smgallo-dev.ccr.xdmod.org'
+alias h-smgallo='ssh -A smgallo.ccr.xdmod.org'
 alias h-metrics-dev="ssh -A metrics-dev.ccr.buffalo.edu"
