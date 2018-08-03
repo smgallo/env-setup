@@ -184,9 +184,9 @@ set nohls
 " Force vim to reset the terminal and clear the color scheme (if running in a terminal).
 " See http://vimdoc.sourceforge.net/htmldoc/autocmd.html
 " See http://superuser.com/questions/942597/why-does-my-vim-colorscheme-stay-after-i-close-vim
-if ! has('gui_running')
-    autocmd VimLeave * printf '\e[0m'
-endif
+"f ! has('gui_running')
+"    autocmd VimLeave * printf '\e[0m'
+"endif
 
 " Display filename (tail) and plus for modified files in tabs instead of whole path
 set guitablabel=%t\ %M
