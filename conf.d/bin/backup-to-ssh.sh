@@ -60,7 +60,7 @@ if [[ -z $REMOTE_DIR ]]; then
 fi
 
 if [[ -z $BACKUP_DIRS ]]; then
-    echo "Must specify at least one directory to backup (-d)"
+    echo "Must specify at least one directory to backup (-b)"
     exit 1
 fi
 
