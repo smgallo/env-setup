@@ -63,6 +63,10 @@ if [ 0 -ne $? ]; then exit 1; fi
 
 # Run all install files
 
+if [[ 1 -eq $VERBOSE ]]; then
+    echo "Verbose message can be found in $LOG_FILE"
+fi
+
 find . -name install.sh |
 while read installer ; do
     dir=`dirname $installer`
