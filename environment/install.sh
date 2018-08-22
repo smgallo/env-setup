@@ -16,6 +16,15 @@ fi
 ENV
 fi
 
+# The OSX terminal app sources .bash_profile rather than .bashrc
+
+if [ "Darwin" -eq `uname` ]; then
+    backup_file $HOME/.bash_profile
+    cat <<DARWIN >>$HOME/.bash_profile
+# OSX terminal executes .bash_profile on start
+. ~/.bashrc
+DARWIN
+
 cp bash_init_env $HOME/.bash_init_env
 if [ ! -d $HOME/.bash_environment ]; then
     mkdir $HOME/.bash_environment
