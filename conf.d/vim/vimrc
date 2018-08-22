@@ -73,6 +73,8 @@ if has('gui_running')
     set lines=60 columns=100
 " Set the font for windows
 "    set guifont=Consolas:h9:cANSI
+" Set the font for OSX
+"    set guifont=Consolas:h12
 " Set the font for linux (must have the font installed)
     set guifont=Consolas\ 9
 "    set guifont=Source\ Code\ Pro\ Light\ 9
