@@ -6,7 +6,7 @@ backup_file $HOME/.bash_init_env
 backup_file $HOME/.bashrc
 
 if [ ! -f $HOME/.bash_init_env ]; then
-    cat <<ENV >>$HOME/.bashrc
+    cat <<'ENV' >>$HOME/.bashrc
 
 # Read environment files
 
@@ -20,7 +20,7 @@ fi
 
 if [ "Darwin" = `uname` ]; then
     backup_file $HOME/.bash_profile
-    cat <<DARWIN >>$HOME/.bash_profile
+    cat <<'DARWIN' >>$HOME/.bash_profile
 # OSX terminal executes .bash_profile on start
 . ~/.bashrc
 DARWIN
