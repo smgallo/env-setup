@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Don't start if we're already running
+ps -ef | grep lib/python2.7/site-packages/pgadmin4/pgAdmin4.py | grep -v grep
+if [ 1 -eq $? ]; then
+    cd ~/virtualenv/pgadmin4
+    . bin/activate
+    python lib/python2.7/site-packages/pgadmin4/pgAdmin4.py &
+fi
