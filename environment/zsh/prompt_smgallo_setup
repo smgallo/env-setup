@@ -1,0 +1,70 @@
+#!/usr/bin/env zsh
+#
+# A single line theme with Git information on the left and Ruby on the right.
+# Inspired by the skwp, garrett, and steef prompts.
+#
+# Authors:
+#   Steve Gallo <smgallo@buffalo.edu>
+
+function prompt_smgallo_precmd {
+  # Get Git repository information.
+  if (( $+functions[git-info] )); then
+    git-info
+  fi
+}
+
+function prompt_smgallo_setup {
+    setopt LOCAL_OPTIONS
+    unsetopt XTRACE KSH_ARRAYS
+    prompt_opts=(cr percent sp subst)
+
+# Load required functions.
+    autoload -Uz add-zsh-hook
+
+# Add hook to set up prompt parameters before each command.
+    add-zsh-hook precmd prompt_smgallo_precmd
+
+# If we are the root user, make the user display red
+
+    if [[ $EUID = 0 ]] || [[ "$USER" = "root" ]]; then
+        prompt_smgallo_user="%F{red}%n@%m%f"
+    else
+        prompt_smgallo_user="%f%n@%m"
+    fi
+
+    prompt_smgallo_dir="%F{green}:%1~%f"
+    # prompt_smgallo_dir="%~"
+    prompt_bg_jobs="%(1j. (%j) . )"
+ 
+    eval prompt_smgallo_return_code='%(?..%F{red}%? ⏎ %f) '
+
+# Set git-info parameters. Borrowed from the garrett prompt.
+# For context definitions see https://github.com/sorin-ionescu/prezto/tree/master/modules/git
+    zstyle ':prezto:module:git:info' verbose 'yes'
+# Prompt info
+    zstyle ':prezto:module:git:info:branch'    format "%F{cyan}%b%f"
+# Remote status
+    zstyle ':prezto:module:git:info:behind'    format "%F{magenta} ⬇%f"
+    zstyle ':prezto:module:git:info:ahead'     format "%F{magenta} ⬆%f"
+    zstyle ':prezto:module:git:info:stashed'   format "%F{cyan} ✭%f"
+# Local status
+    zstyle ':prezto:module:git:info:clean'     format ""
+    zstyle ':prezto:module:git:info:added'     format "%F{green} ✚%f"
+    zstyle ':prezto:module:git:info:deleted'   format "%F{red} ✗%f"
+    zstyle ':prezto:module:git:info:modified'  format "%F{blue} ✱%f"
+    zstyle ':prezto:module:git:info:renamed'   format "%F{magenta} ➜%f"
+    zstyle ':prezto:module:git:info:unmerged'  format "%F{yellow} ═%f"
+    zstyle ':prezto:module:git:info:untracked' format "%F{grey} ◼%f"
+
+  # Git prompt styles.
+  zstyle ':prezto:module:git:info:keys' format \
+      'prompt_info'    "(%b" \
+      'local_status'   "%C%D%a%d%m%r%U%u)" \
+      'remote_status'  "%B%A%S" \
+
+# Define prompts.
+    export PROMPT="${prompt_smgallo_user}${prompt_smgallo_dir}${prompt_bg_jobs}%F{yellow}[%*]%f$ "
+    export RPROMPT='${git_info[prompt_info]}${git_info[remote_status]}${git_info[local_status]}'"${prompt_smgallo_return_code}"
+}
+
+prompt_smgallo_setup "$@"

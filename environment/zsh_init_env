@@ -5,11 +5,11 @@
 ENV_DIR="${HOME}/.environment"
 
 # Extensions to look for in order of precedence
-SHELL_EXT=(.sh)
+SHELL_EXT=(.zsh .sh)
 
 if [ -d $ENV_DIR ]; then
     # Get a list of environmant files without extensions
-    files=`/bin/ls -1 $ENV_DIR | sed 's/\..\{1,3\}$//g' | sort -u`
+    files=(`/bin/ls -1 $ENV_DIR | sed 's/\..\{1,3\}$//g' | sort -u`)
     for file in $files; do
         # Check for environment files in order of preference, executing the first one that is
         # executable
