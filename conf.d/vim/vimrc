@@ -52,15 +52,8 @@ Plug 'tpope/vim-surround'
 " Add :Rename to rename a file
 Plug 'danro/rename.vim'
 
-" Fuzzy file and tag search. Note that this expects fzf to be installed as per https://github.com/junegunn/fzf
-" cd ~/src && git clone https://github.com/junegunn/fzf.git
-" cd fzf && ./install
-Plug '~/src/fzf'
-Plug 'junegunn/fzf.vim'
-
-" Search within files. Requires https://github.com/ggreer/the_silver_searcher
-" Be careful about searching at the root of a large code tree!
-Plug 'mileszs/ack.vim'
+" Improve netrw experience
+Plug 'tpope/vim-vinegar'
 
 call plug#end()
 
@@ -143,6 +136,12 @@ set pastetoggle=<F3>
 
 " Map ctrl-a to select all text on the screen (rather than incrementing an integer)
 map <C-a> <esc>ggVG<CR>
+
+" Map navigation keys that I don't use to tab commands
+map <C-l> :tabn<CR>
+map <C-h> :tabp<CR>
+map <C-n> :tabnew<CR>
+
 " Map Ctrl-Backspace/Del to delete the previous/next word in insert mode.
 imap <C-BS> <C-W>
 imap <C-Del> <C-O>dw
@@ -196,12 +195,13 @@ set guitablabel=%t\ %M
 " --------------------------------------------------------------------------------
 " File Explorer (netrw) options :Vexplore
 " See http://vimdoc.sourceforge.net/htmldoc/pi_netrw.html
+" I am using vim-vinegar to make it easier to access netrw
 
 let g:netrw_banner = 0
 " Listing style (0=simple, 1=show timestamps, 2=multi-column, 3=tree)
 let g:netrw_liststyle = 3
 " Open new files in (0=same window, 1=hsplit, 2=vsplit, 3=new tab, 4=prev window)
-let g:netrw_browse_split = 4
+let g:netrw_browse_split = 0
 " Split right
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
