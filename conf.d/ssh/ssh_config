@@ -1,10 +1,16 @@
 ForwardX11=yes
-# Note we can't have a default for github.com or it will override entries with a HostName=github.com
-Host z3gallo.github.com
-    HostName github.com
-    IdentityFile ~/.ssh/id_rsa_github_z3gallo
-    User git
-Host smgallo.github.com
+
+# Keepalive for UB Wireless
+ServerAliveInterval=30
+ServerAliveCountMax=5
+
+# Useful if using zsh and hostname completion based on known hosts file
+HashKnownHosts=no
+
+# Use my github key when working with repos via ssh
+Host github.com
+    AddKeysToAgent yes
+    UseKeychain yes
     HostName github.com
     IdentityFile ~/.ssh/github
     User git
