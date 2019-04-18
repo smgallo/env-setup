@@ -52,8 +52,8 @@ Plug 'tpope/vim-surround'
 " Add :Rename to rename a file
 Plug 'danro/rename.vim'
 
-" Improve netrw experience
-Plug 'tpope/vim-vinegar'
+" Provides more powerful line join features than the build-in :join
+Plug 'sk1418/Join'
 
 call plug#end()
 
@@ -63,15 +63,12 @@ let s:uname=substitute(system('uname'), '\n', '', '')
 " Better colors for a dark/light background
 if has('gui_running')
     set background=dark
-    set lines=60 columns=100
+    set lines=60 columns=120
 " Set the font for windows
 "    set guifont=Consolas:h9:cANSI
 " Set the font for OSX
 "    set guifont=Consolas:h12
-" Set the font for linux (must have the font installed)
-    set guifont=Consolas\ 9
-"    set guifont=Source\ Code\ Pro\ Light\ 9
-
+     set guifont=Source\ Code\ Variable\ Regular:h12
 else
     set background=dark
 endif
@@ -131,6 +128,10 @@ set textwidth=100
 " indent 'case:' and 'default:' statements in switch() blocks:
 let g:PHP_vintage_case_default_indent = 1
 
+" Disable text line wrapping
+imap <F1> <C-o>:set formatoptions-=t<CR>
+" Enable text line wrapping
+imap <F2> <C-o>:set formatoptions+=t<CR>
 " Shortcut for toggling paste mode (disabling auto-indent when pasting)
 set pastetoggle=<F3>
 
@@ -157,8 +158,22 @@ set autochdir
 " Indent relative to current line
 " set autoindent
 " set cindent
-" Don't automatically continue comments on the next line
-" set formatoptions-=c formatoptions-=r formatoptions-=o
+
+" Set formatting options. See http://vimdoc.sourceforge.net/htmldoc/change.html#fo-table
+" Auto-wrap comments using textwidth
+set formatoptions+=c
+" Do not auto-wrap text (e.g., code)
+set formatoptions-=t
+" Insert the current comment leader after hitting enter
+set formatoptions+=r
+" Do not insert the current comment leader after hitting 'o'
+set formatoptions-=o
+" Recognize numbered lists
+set formatoptions+=n
+" Allow formatting of comments with "gq"
+set formatoptions+=q
+" Long lines are not broken in insert mode
+set formatoptions+=l
 
 " Some plugins (e.g., filetype plugins) are loaded after the .vimrc file and overwrite
 " options defined here. Automatically re-apply formatting options when any file is loaded.
@@ -167,7 +182,7 @@ set autochdir
 "
 " Running ':verb set fo' will show you where an option was last set
 " Running :set <option>? will display the options current value
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o foldmethod=manual
+autocmd FileType * setlocal formatoptions+=crnql formatoptions-=to foldmethod=manual
 
 " Show matching braces but not gt/lt or we get a visual bell on object property dereferences
 set showmatch
@@ -201,7 +216,7 @@ let g:netrw_banner = 0
 " Listing style (0=simple, 1=show timestamps, 2=multi-column, 3=tree)
 let g:netrw_liststyle = 3
 " Open new files in (0=same window, 1=hsplit, 2=vsplit, 3=new tab, 4=prev window)
-let g:netrw_browse_split = 0
+let g:netrw_browse_split = 4
 " Split right
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
@@ -220,6 +235,8 @@ let g:vim_json_syntax_conceal = 0
 
 " In markdown mode, don't automatically indent lists. I want to do this manually.
 let g:vim_markdown_new_list_item_indent = 0
+" Disable folding
+let g:vim_markdown_folding_disabled = 1
 
 " --------------------------------------------------------------------------------
 " Lightline configuration
