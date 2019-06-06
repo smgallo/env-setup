@@ -6,6 +6,10 @@ alias p-redfly="cd ~/Documents/projects/redfly"
 alias emacs="emacs -geometry 120x70"
 alias ls="/bin/ls -FxC"
 alias rm="/bin/rm -i"
+# Show full command line
+alias top="top -c"
+# Ignore case unless capitals are present in search
+alias less="less -i"
 alias gen-ctags="ctags -R -o .tags --exclude=.git --exclude=vendor --exclude=.diff --exclude=logs --fields=+KSn"
 # SSH
 alias s-xdcdb-backup="ssh -A xdcdb-backup.ccr.xdmod.org"

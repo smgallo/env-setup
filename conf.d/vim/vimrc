@@ -128,12 +128,19 @@ set textwidth=100
 " indent 'case:' and 'default:' statements in switch() blocks:
 let g:PHP_vintage_case_default_indent = 1
 
+" --------------------------------------------------------------------------------
+" Map function keys
+
 " Disable text line wrapping
 imap <F1> <C-o>:set formatoptions-=t<CR>
 " Enable text line wrapping
 imap <F2> <C-o>:set formatoptions+=t<CR>
 " Shortcut for toggling paste mode (disabling auto-indent when pasting)
 set pastetoggle=<F3>
+
+" Toggle hilighting seaerch matches.
+map <F4> :set hlsearch!<CR>
+imap <F4> <C-o>:set hlsearch!<CR>
 
 " Map ctrl-a to select all text on the screen (rather than incrementing an integer)
 map <C-a> <esc>ggVG<CR>
@@ -164,8 +171,8 @@ set autochdir
 set formatoptions+=c
 " Do not auto-wrap text (e.g., code)
 set formatoptions-=t
-" Insert the current comment leader after hitting enter
-set formatoptions+=r
+" Insert the current comment leader after hitting enter?
+set formatoptions-=r
 " Do not insert the current comment leader after hitting 'o'
 set formatoptions-=o
 " Recognize numbered lists
@@ -182,7 +189,7 @@ set formatoptions+=l
 "
 " Running ':verb set fo' will show you where an option was last set
 " Running :set <option>? will display the options current value
-autocmd FileType * setlocal formatoptions+=crnql formatoptions-=to foldmethod=manual
+autocmd FileType * setlocal formatoptions+=cnql formatoptions-=tro foldmethod=manual
 
 " Show matching braces but not gt/lt or we get a visual bell on object property dereferences
 set showmatch
@@ -193,9 +200,6 @@ set ruler
 
 " Disable beeps
 set vb t_vb=
-
-" Do not hilight search fields
-set nohls
 
 " Force vim to reset the terminal and clear the color scheme (if running in a terminal).
 " See http://vimdoc.sourceforge.net/htmldoc/autocmd.html

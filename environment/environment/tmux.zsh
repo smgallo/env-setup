@@ -24,3 +24,9 @@ function trename {
     # tmux renamew -t current new
     tmux renamew $1
 }
+
+# If we have logged via a new tmux tab set our terminal to something useful
+
+if [[ "tmux" = $TERM ]]; then
+    export TERM=xterm-256color
+fi
