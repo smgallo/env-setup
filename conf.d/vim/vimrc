@@ -55,6 +55,9 @@ Plug 'danro/rename.vim'
 " Provides more powerful line join features than the build-in :join
 Plug 'sk1418/Join'
 
+" Hilight trailing whitespace
+Plug 'ntpeters/vim-better-whitespace'
+
 call plug#end()
 
 " Detect the system name for customizations

@@ -19,3 +19,9 @@ alias s-metrics-dev="ssh -A metrics-dev.ccr.buffalo.edu"
 # OSX
 alias updatedb="/usr/libexec/locate.updatedb"
 alias gvim="/usr/local/Cellar/macvim/8.1-151/MacVim.app/Contents/MacOS/Vim -g -f"
+
+# Set the window or tab title
+
+function settitle {
+    echo -ne "\e]1;$1\a"
+}
