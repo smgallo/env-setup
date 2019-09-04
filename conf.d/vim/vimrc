@@ -263,7 +263,7 @@ endif
 
 " Don't constantly lint, give me a chance to type (default 200ms)
 let g:ale_lint_delay=5000
-
+let g:ale_php_phpcs_standard='psr2'
 
 " --------------------------------------------------------------------------------
 " Syntastic configuration
