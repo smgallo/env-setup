@@ -12,22 +12,11 @@ Plug 'jamessan/vim-gnupg'
 
 Plug 'altercation/vim-colors-solarized'
 
-Plug 'plasticboy/vim-markdown'
-
 " Tab variable completion
 Plug 'ervandew/supertab'
 
-" JSON-specific mode rather than the default javascript mode
-Plug 'elzr/vim-json'
-
-" Docker file syntax hilighting
-Plug 'ekalinin/Dockerfile.vim'
-
 " Dark code syntax mode that is easier on my eyes than solarized dark
 Plug 'tomasiser/vim-code-dark'
-
-" Coffeescript syntax
-Plug 'kchmck/vim-coffee-script'
 
 " Improved tabs when running in the terminal instead of implementing it myself as described in:
 " https://vi.stackexchange.com/questions/11276/print-full-filename-in-tabs-when-using-terminal-vim
@@ -57,6 +46,23 @@ Plug 'sk1418/Join'
 
 " Hilight trailing whitespace
 Plug 'ntpeters/vim-better-whitespace'
+
+" Fuzzy file finder
+Plug 'ctrlpvim/ctrlp.vim'
+
+" --------------------------------------------------------------------------------
+" Syntax hilighters
+
+Plug 'plasticboy/vim-markdown'
+
+" JSON-specific mode rather than the default javascript mode
+Plug 'elzr/vim-json'
+
+" Coffeescript syntax
+Plug 'kchmck/vim-coffee-script'
+
+" Docker file syntax hilighting
+Plug 'ekalinin/Dockerfile.vim'
 
 call plug#end()
 
@@ -251,19 +257,33 @@ let g:vim_markdown_folding_disabled = 1
 set laststatus=2
 
 " --------------------------------------------------------------------------------
-" ack.vim configuration
-
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
-
-" --------------------------------------------------------------------------------
 " Ale configuration
 " Note that Ale will use the phpcs.xml file in the root directory
 
 " Don't constantly lint, give me a chance to type (default 200ms)
 let g:ale_lint_delay=5000
 let g:ale_php_phpcs_standard='psr2'
+
+" --------------------------------------------------------------------------------
+" CtrlP configuration
+
+" Set local working dir to the nearest ancestor of the current file that contains
+" revision control (.git) or the directory of the current file
+let g:ctrlp_working_path_mode = 'ra'
+" configure results window
+let g:ctrlp_match_window = 'min:4,max:10,results:50'
+
+" The Silver Searcher (brew install ag)
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command='ag %s -l --nocolor --hidden -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
 
 " --------------------------------------------------------------------------------
 " Syntastic configuration
