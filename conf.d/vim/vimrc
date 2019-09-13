@@ -12,11 +12,11 @@ Plug 'jamessan/vim-gnupg'
 
 Plug 'altercation/vim-colors-solarized'
 
-" Tab variable completion
-Plug 'ervandew/supertab'
-
 " Dark code syntax mode that is easier on my eyes than solarized dark
 Plug 'tomasiser/vim-code-dark'
+
+" Tab variable completion
+Plug 'ervandew/supertab'
 
 " Improved tabs when running in the terminal instead of implementing it myself as described in:
 " https://vi.stackexchange.com/questions/11276/print-full-filename-in-tabs-when-using-terminal-vim
@@ -75,9 +75,11 @@ if has('gui_running')
     set lines=60 columns=120
 " Set the font for windows
 "    set guifont=Consolas:h9:cANSI
+" Set the font for linux (must have the font installed)
+"    set guifont=Source\ Code\ Pro\ Light\ 9
 " Set the font for OSX
 "    set guifont=Consolas:h12
-     set guifont=Source\ Code\ Variable\ Regular:h12
+    set guifont=Source\ Code\ Variable\ Regular:h12
 else
     set background=dark
 endif
@@ -163,10 +165,11 @@ map <C-n> :tabnew<CR>
 imap <C-BS> <C-W>
 imap <C-Del> <C-O>dw
 
-" Search for the tags file. The ';' at the end causes a recursively upward search
-" Use './tags;' to start searching in the directory of the current file rather than
-" Vim's working directory
-set tags=.tags;
+" Search for the .tags file. The './' adds the current directory to the file name.
+" The ';' at the end causes a recursively upward search. Use './.tags;' to start searching
+" in the directory of the current file rather than Vim's working directory.
+" See https://vim.fandom.com/wiki/Browsing_programs_with_tags
+set tags=./.tags;
 
 " Set current directory the same as the directory of the file
 set autochdir
@@ -223,7 +226,6 @@ set guitablabel=%t\ %M
 " --------------------------------------------------------------------------------
 " File Explorer (netrw) options :Vexplore
 " See http://vimdoc.sourceforge.net/htmldoc/pi_netrw.html
-" I am using vim-vinegar to make it easier to access netrw
 
 let g:netrw_banner = 0
 " Listing style (0=simple, 1=show timestamps, 2=multi-column, 3=tree)
@@ -272,6 +274,8 @@ let g:ale_php_phpcs_standard='psr2'
 let g:ctrlp_working_path_mode = 'ra'
 " configure results window
 let g:ctrlp_match_window = 'min:4,max:10,results:50'
+" Enable extensions (see :help ctrlp-extensions)
+let g:ctrlp_extensions = ['tag']
 
 " The Silver Searcher (brew install ag)
 if executable('ag')
