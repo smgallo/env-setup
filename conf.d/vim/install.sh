@@ -4,6 +4,7 @@ log_message "** Installing vim config"
 
 backup_file $HOME/.vimrc
 cp vimrc $HOME/.vimrc
+cp vimrc-xdebug $HOME/.vimrc-xdebug
 
 make_dir $HOME/.vim
 if [ 0 -ne $? ]; then exit 1; fi

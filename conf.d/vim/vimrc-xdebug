@@ -1,0 +1,8 @@
+" XDebug plugin: https://addons.mozilla.org/en-US/firefox/addon/xdebug-helper-for-firefox/
+let g:vdebug_options = {}
+
+" Mapping is required for XDebug to map between the paths in the docker container and on the
+" localhost
+let g:vdebug_options['path_maps'] = {
+      \  '/usr/share/xdmod' : '/Users/smgallo/src/xdmod'
+\}
