@@ -279,6 +279,8 @@ let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_match_window = 'min:4,max:10,results:50'
 " Enable extensions (see :help ctrlp-extensions)
 let g:ctrlp_extensions = ['tag']
+" Set regexp search as the default. I find this matches filenames better.
+let g:ctrlp_regexp = 1
 
 " The Silver Searcher (brew install ag)
 if executable('ag')
