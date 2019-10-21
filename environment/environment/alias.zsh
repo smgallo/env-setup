@@ -15,8 +15,8 @@ alias s-xdcdb-backup="ssh -A xdcdb-backup.ccr.xdmod.org"
 alias updatedb="/usr/libexec/locate.updatedb"
 alias gvim="/usr/local/Cellar/macvim/8.1-151/MacVim.app/Contents/MacOS/Vim -g -f"
 
-# Set the window or tab title (bash)
+# Set the window or tab title (zsh)
 
 function settitle {
-    echo -en "\033]0;$1\a"
+    echo -ne "\e]1;$1\a"
 }
