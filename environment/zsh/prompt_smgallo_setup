@@ -29,13 +29,13 @@ function prompt_smgallo_setup {
     if [[ $EUID = 0 ]] || [[ "$USER" = "root" ]]; then
         prompt_smgallo_user="%F{red}%n@%m%f"
     else
-        prompt_smgallo_user="%f%n@%m"
+        prompt_smgallo_user="%f%n%F{blue}@%f%m"
     fi
 
     prompt_smgallo_dir="%F{green}:%1~%f"
     # prompt_smgallo_dir="%~"
     prompt_bg_jobs="%(1j. (%j) . )"
- 
+
     eval prompt_smgallo_return_code='%(?..%F{red}%? ⏎ %f) '
 
 # Set git-info parameters. Borrowed from the garrett prompt.
