@@ -253,6 +253,11 @@ let g:netrw_list_hide='^\.'
 
 " --------------------------------------------------------------------------------
 " vim-json config (https://github.com/elzr/vim-json)
+" Set 2 space indents for HTML files only
+autocmd BufRead,BufNewFile *.htm,*.html setlocal tabstop=2 shiftwidth=2 softtabstop=2
+
+" --------------------------------------------------------------------------------
+" vim-json config (https://github.com/elzr/vim-json)
 
 " Disable concealing of quotes by default. Makes it easier to cut and paste.
 let g:vim_json_syntax_conceal = 0
