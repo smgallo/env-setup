@@ -53,6 +53,9 @@ Plug 'ctrlpvim/ctrlp.vim'
 " Awesome debugger plugin
 Plug 'vim-vdebug/vdebug'
 
+" Improve indentation of HTML withing PHP files
+Plug 'captbaritone/better-indent-support-for-php-with-html'
+
 " --------------------------------------------------------------------------------
 " Syntax hilighters
 
@@ -86,6 +89,9 @@ if has('gui_running')
 else
     set background=dark
 endif
+
+" Use PHP syntax for view files
+autocmd BufNewFile,BufRead *.view set filetype=php
 
 " --------------------------------------------------------------------------------
 " Color schemes
