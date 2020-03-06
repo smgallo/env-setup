@@ -70,6 +70,9 @@ Plug 'kchmck/vim-coffee-script'
 " Docker file syntax hilighting
 Plug 'ekalinin/Dockerfile.vim'
 
+" Improved SQL hilight mode
+Plug 'shmup/vim-sql-syntax'
+
 call plug#end()
 
 " Detect the system name for customizations
@@ -256,6 +259,11 @@ let g:netrw_winsize = 25
 
 " Don't show dotfiles
 let g:netrw_list_hide='^\.'
+
+" --------------------------------------------------------------------------------
+" vim-json config (https://github.com/elzr/vim-json)
+" Set 2 space indents for HTML files only
+autocmd BufRead,BufNewFile *.htm,*.html setlocal tabstop=2 shiftwidth=2 softtabstop=2
 
 " --------------------------------------------------------------------------------
 " vim-json config (https://github.com/elzr/vim-json)
