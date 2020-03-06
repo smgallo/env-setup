@@ -67,6 +67,9 @@ Plug 'kchmck/vim-coffee-script'
 " Docker file syntax hilighting
 Plug 'ekalinin/Dockerfile.vim'
 
+" Improved SQL hilight mode
+Plug 'shmup/vim-sql-syntax'
+
 call plug#end()
 
 " Detect the system name for customizations
