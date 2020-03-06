@@ -1,6 +1,20 @@
 #!/bin/bash
 #
 # Backup files to a remote directory via ssh
+#
+# To decrypt:
+# gpg -d --cipher-algo AES256 file.tar.gz.gpg | tar ztf -
+
+REMOTE_HOST=localhost
+REMOTE_DIR=/Volumes/Users\$/st25673/backups
+BACKUP_DIRS=
+PROMPT_FOR_PASSWORD=
+EXCLUDE_PATTERNS=
+EXCLUDE_FILE=/tmp/tar_exclude
+MYFIFO=/tmp/myfifo
+INCLUDE_DOTFILES=0
+# Optionally set a default password
+PASSWD=
 
 function show_help {
     cat<<HELP
@@ -8,33 +22,27 @@ Usage $0
     -r <remote_host>
         The destination host
     -d <remote_directory>
-        The destination directory on the remote host
+        The destination directory on the remote host [default: $REMOTE_HOST]
     -b <directory_to_backup>
-        Multiple -b options may be specified
+        Multiple -b options may be specified [default: $REMOTE_DIR]
     -p
         Prompt for encryption password to override the default value
     -x <exclude_pattern>
         Pattern to exclude from backups
+    -a
+        Include dotfiles [default: $INCLUDE_DOTFILES]
     -h
         Display help
 HELP
 }
-
-REMOTE_HOST=rush
-REMOTE_DIR=/projects/ccrstaff/smgallo/dave_backups
-BACKUP_DIRS=
-PROMPT_FOR_PASSWORD=
-EXCLUDE_PATTERNS=
-EXCLUDE_FILE=/tmp/tar_exclude
-MYFIFO=/tmp/myfifo
-# Optionally set a default password
-PASSWD=
 
 while getopts "h?r:d:b:x:p" opt; do
     case "$opt" in
         h|\?)
             show_help
             exit 0
+            ;;
+        a)  INCLUDE_DOTFILES=1
             ;;
         b)  BACKUP_DIRS=${BACKUP_DIRS}${BACKUP_DIRS:+" "}$OPTARG
             ;;
@@ -109,12 +117,17 @@ for dir in $BACKUP_DIRS; do
     fi
 
     echo $PASSWD >&3
-    tar czf - $dir -X $EXCLUDE_FILE | gpg -c --cipher-algo AES256 --passphrase-fd 3 --batch | ssh -q $REMOTE_HOST "cat - > ${REMOTE_DIR}/${BACKUPFILE}"
+    if [ "localhost" = $REMOTE_HOST -o "127.0.0.1" = $REMOTE_HOST ]; then
+        tar czf - $dir -X $EXCLUDE_FILE | gpg -c --cipher-algo AES256 --passphrase-fd 3 --batch > ${REMOTE_DIR}/${BACKUPFILE}
+    else
+        tar czf - $dir -X $EXCLUDE_FILE | gpg -c --cipher-algo AES256 --passphrase-fd 3 --batch | ssh -q $REMOTE_HOST "cat - > ${REMOTE_DIR}/${BACKUPFILE}"
+    fi
 done
 
 # Back up dotfiles
 
-cat >$EXCLUDE_FILE<< EXCLUDE
+if [ 1 -eq $INCLUDE_DOTFILES ]; then
+    cat >$EXCLUDE_FILE<< EXCLUDE
 .cache
 .Cloudstation
 .cloud-ipc-socket
@@ -126,11 +139,12 @@ cat >$EXCLUDE_FILE<< EXCLUDE
 .thunderbird
 EXCLUDE
 
-BACKUPFILE=dotfiles_${DATE}.tar.gz.gpg
-echo "Backing up dotfiles to $REMOTE_HOST:$REMOTE_DIR/$BACKUPFILE"
-echo $PASSWD >&3
-(cd $HOME && tar czf - -X $EXCLUDE_FILE .??*) \
-    | gpg -c --cipher-algo AES256 --passphrase-fd 3 --batch | ssh -q $REMOTE_HOST "cat - > ${REMOTE_DIR}/${BACKUPFILE}"
+    BACKUPFILE=dotfiles_${DATE}.tar.gz.gpg
+    echo "Backing up dotfiles to $REMOTE_HOST:$REMOTE_DIR/$BACKUPFILE"
+    echo $PASSWD >&3
+    (cd $HOME && tar czf - -X $EXCLUDE_FILE .??*) \
+        | gpg -c --cipher-algo AES256 --passphrase-fd 3 --batch | ssh -q $REMOTE_HOST "cat - > ${REMOTE_DIR}/${BACKUPFILE}"
+fi
 
 rm $EXCLUDE_FILE
 rm $MYFIFO

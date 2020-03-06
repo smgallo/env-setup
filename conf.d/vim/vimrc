@@ -53,7 +53,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 " Awesome debugger plugin
 Plug 'vim-vdebug/vdebug'
 
-" Improve indentation of HTML withing PHP files
+" Improve indentation of HTML within PHP files
 Plug 'captbaritone/better-indent-support-for-php-with-html'
 
 " --------------------------------------------------------------------------------
@@ -81,7 +81,7 @@ let s:uname=substitute(system('uname'), '\n', '', '')
 " Better colors for a dark/light background
 if has('gui_running')
     set background=dark
-    set lines=60 columns=120
+    set lines=80 columns=150
 " Set the font for windows
 "    set guifont=Consolas:h9:cANSI
 " Set the font for linux (must have the font installed)
@@ -115,11 +115,6 @@ set t_Co=256
 
 " codedark is easier on my eyes for coding
 colorscheme codedark
-
-" Customize color scheme based on file type when entering a buffer. I use this because
-" markdown looks better in Solarized.
-"autocmd BufEnter *.md colorscheme solarized | set background=dark
-"autocmd BufLeave *.md colorscheme codedark
 
 " --------------------------------------------------------------------------------
 " General options
@@ -185,6 +180,7 @@ noremap <C-a> <Home>
 noremap <C-e> <End>
 inoremap <C-a> <Home>
 inoremap <C-e> <End>
+inoremap <C-k> <C-O>D
 
 " Search for the .tags file. The './' adds the current directory to the file name.
 " The ';' at the end causes a recursively upward search. Use './.tags;' to start searching
@@ -222,7 +218,8 @@ set formatoptions+=l
 "
 " Running ':verb set fo' will show you where an option was last set
 " Running :set <option>? will display the options current value
-autocmd FileType * setlocal formatoptions+=cnql formatoptions-=tro foldmethod=manual
+" autocmd FileType * setlocal formatoptions+=cnql formatoptions-=tro foldmethod=manual
+autocmd FileType * setlocal formatoptions+=cnql formatoptions-=o formatoptions-=r formatoptions-=t foldmethod=manual
 
 " Show matching braces but not gt/lt or we get a visual bell on object property dereferences
 set showmatch
