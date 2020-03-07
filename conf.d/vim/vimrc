@@ -93,9 +93,6 @@ else
     set background=dark
 endif
 
-" Use PHP syntax for view files
-autocmd BufNewFile,BufRead *.view set filetype=php
-
 " --------------------------------------------------------------------------------
 " Color schemes
 "
@@ -111,7 +108,7 @@ if s:uname == "Darwin"
 endif
 
 " May need to set this if the terminal only supports 256 colors (especially in light mode)
-set t_Co=256
+" set t_Co=256
 
 " codedark is easier on my eyes for coding
 colorscheme codedark
@@ -122,6 +119,8 @@ colorscheme codedark
 " Case-sensitive if search contains an uppercase character
 set ignorecase
 set smartcase
+" Show matches as you type
+set incsearch
 
 " Syntax hilighting on
 syntax enable
@@ -141,13 +140,33 @@ set shiftwidth=4
 set expandtab
 set textwidth=100
 
-" Since in PHP braces are not required inside 'case/default' blocks, by default they are indented at
-" the same level than the 'switch()' to avoid unnecessary indentation
-" indent 'case:' and 'default:' statements in switch() blocks:
-let g:PHP_vintage_case_default_indent = 1
+" Show matching braces but not gt/lt or we get a visual bell on object property dereferences
+set showmatch
+set matchpairs-=<:>
+
+" Show line/column information
+set ruler
+
+" Disable beeps
+set vb t_vb=
+
+" Display filename (tail) and plus for modified files in tabs instead of whole path
+set guitablabel=%t\ %M
 
 " --------------------------------------------------------------------------------
-" Map function keys
+" File extension overrides
+
+" Use PHP syntax for view files
+autocmd BufNewFile,BufRead *.view set filetype=php
+
+" Customize SQL files for MySQL
+autocmd BufNewFile,BufRead *.sql set filetype=mysql
+
+" Set 2 space indents for HTML files only
+autocmd BufRead,BufNewFile *.htm,*.html setlocal tabstop=2 shiftwidth=2 softtabstop=2
+
+" --------------------------------------------------------------------------------
+" Keymaps
 
 " Disable text line wrapping
 imap <F1> <C-o>:set formatoptions-=t<CR>
@@ -155,7 +174,6 @@ imap <F1> <C-o>:set formatoptions-=t<CR>
 imap <F2> <C-o>:set formatoptions+=t<CR>
 " Shortcut for toggling paste mode (disabling auto-indent when pasting)
 set pastetoggle=<F3>
-
 " Toggle hilighting seaerch matches.
 map <F4> :set hlsearch!<CR>
 imap <F4> <C-o>:set hlsearch!<CR>
@@ -167,7 +185,6 @@ nnoremap <silent> <F12> :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :no
 " map <C-a> <esc>ggVG<CR>
 
 " Map navigation keys that I don't use to tab commands
-map <C-l> :tabn<CR>
 map <C-h> :tabp<CR>
 map <C-n> :tabnew<CR>
 
@@ -178,10 +195,12 @@ imap <C-Del> <C-O>dw
 " Map Mac move to start/end of line keys for consistency
 noremap <C-a> <Home>
 noremap <C-e> <End>
+noremap <C-k> <C-O>D
 inoremap <C-a> <Home>
 inoremap <C-e> <End>
 inoremap <C-k> <C-O>D
 
+" --------------------------------------------------------------------------------
 " Search for the .tags file. The './' adds the current directory to the file name.
 " The ';' at the end causes a recursively upward search. Use './.tags;' to start searching
 " in the directory of the current file rather than Vim's working directory.
@@ -191,11 +210,9 @@ set tags=./.tags;
 " Set current directory the same as the directory of the file
 set autochdir
 
-" Indent relative to current line
-" set autoindent
-" set cindent
-
+" --------------------------------------------------------------------------------
 " Set formatting options. See http://vimdoc.sourceforge.net/htmldoc/change.html#fo-table
+
 " Auto-wrap comments using textwidth
 set formatoptions+=c
 " Do not auto-wrap text (e.g., code)
@@ -221,26 +238,6 @@ set formatoptions+=l
 " autocmd FileType * setlocal formatoptions+=cnql formatoptions-=tro foldmethod=manual
 autocmd FileType * setlocal formatoptions+=cnql formatoptions-=o formatoptions-=r formatoptions-=t foldmethod=manual
 
-" Show matching braces but not gt/lt or we get a visual bell on object property dereferences
-set showmatch
-set matchpairs-=<:>
-
-" Show line/column information
-set ruler
-
-" Disable beeps
-set vb t_vb=
-
-" Force vim to reset the terminal and clear the color scheme (if running in a terminal).
-" See http://vimdoc.sourceforge.net/htmldoc/autocmd.html
-" See http://superuser.com/questions/942597/why-does-my-vim-colorscheme-stay-after-i-close-vim
-"f ! has('gui_running')
-"    autocmd VimLeave * printf '\e[0m'
-"endif
-
-" Display filename (tail) and plus for modified files in tabs instead of whole path
-set guitablabel=%t\ %M
-
 " --------------------------------------------------------------------------------
 " File Explorer (netrw) options :Vexplore
 " See http://vimdoc.sourceforge.net/htmldoc/pi_netrw.html
@@ -258,9 +255,10 @@ let g:netrw_winsize = 25
 let g:netrw_list_hide='^\.'
 
 " --------------------------------------------------------------------------------
-" vim-json config (https://github.com/elzr/vim-json)
-" Set 2 space indents for HTML files only
-autocmd BufRead,BufNewFile *.htm,*.html setlocal tabstop=2 shiftwidth=2 softtabstop=2
+" Since in PHP braces are not required inside 'case/default' blocks, by default they are indented at
+" the same level than the 'switch()' to avoid unnecessary indentation indent 'case:' and 'default:'
+" statements in switch() blocks:
+let g:PHP_vintage_case_default_indent = 1
 
 " --------------------------------------------------------------------------------
 " vim-json config (https://github.com/elzr/vim-json)
