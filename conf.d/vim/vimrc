@@ -88,7 +88,7 @@ if has('gui_running')
 "    set guifont=Source\ Code\ Pro\ Light\ 9
 " Set the font for OSX
 "    set guifont=Consolas:h12
-    set guifont=Source\ Code\ Variable\ Regular:h12
+    set guifont=SourceCodePro-Regular:h12
 else
     set background=dark
 endif
@@ -320,6 +320,10 @@ endif
 if filereadable(expand("~/.vimrc-xdebug"))
   source ~/.vimrc-xdebug
 endif
+
+" --------------------------------------------------------------------------------
+" Set default sql mode
+let g:sql_type_default='mysql'
 
 " --------------------------------------------------------------------------------
 " Syntastic configuration
