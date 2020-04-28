@@ -32,4 +32,6 @@ export -f trename
 
 if [[ "tmux" = $TERM ]]; then
     export TERM=xterm-256color
+    # The trename() function would not properly set the iTerm2 tab title without this
+    export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/~}\007"'
 fi
