@@ -10,8 +10,6 @@ call plug#begin('~/.vim/plugged')
 " Shorthand notation fetches https://github.com/jamessan/vim-gnupg
 Plug 'jamessan/vim-gnupg'
 
-Plug 'altercation/vim-colors-solarized'
-
 " Dark code syntax mode that is easier on my eyes than solarized dark
 Plug 'tomasiser/vim-code-dark'
 
@@ -22,9 +20,6 @@ Plug 'ervandew/supertab'
 " https://vi.stackexchange.com/questions/11276/print-full-filename-in-tabs-when-using-terminal-vim
 " http://vimhelp.appspot.com/tabpage.txt.html#setting-tabline
 Plug 'webdevel/tabulous'
-
-" Syntax checking with many plugins
-" Plug 'vim-syntastic/syntastic'
 
 " Realtime syntax checking for Vim 8+
 Plug 'w0rp/ale'
@@ -56,19 +51,18 @@ Plug 'vim-vdebug/vdebug'
 " Improve indentation of HTML within PHP files
 Plug 'captbaritone/better-indent-support-for-php-with-html'
 
+" Color colornames and codes. Use :ColorHilight and :ColorClear
+Plug 'chrisbra/Colorizer'
+
+" Javascript linter, works with ale
+" Needs: npm install -g jshint
+Plug 'NikolayFrantsev/jshint2.vim'
+
 " --------------------------------------------------------------------------------
 " Syntax hilighters
 
-Plug 'plasticboy/vim-markdown'
-
-" JSON-specific mode rather than the default javascript mode
-Plug 'elzr/vim-json'
-
-" Coffeescript syntax
-Plug 'kchmck/vim-coffee-script'
-
-" Docker file syntax hilighting
-Plug 'ekalinin/Dockerfile.vim'
+" A collection of language packs for Vim
+Plug 'sheerun/vim-polyglot'
 
 " Improved SQL hilight mode
 Plug 'shmup/vim-sql-syntax'
