@@ -2,21 +2,32 @@
 #
 # Back up a MySQL database including triggers and stored procedures
 
-if [ 1 -ne $# ]; then
-    echo "Usage: $0 <dbname>"
+USER=
+DBNAME=
+PASSWD="-p"
+OPTIONS=
+
+while getopts d:u:o:p option
+do
+    case "${option}"
+        in
+        u) USER="-u "${OPTARG};;
+        d) DBNAME=${OPTARG};;
+        p) PASSWD="-p";;
+	o) OPTIONS="${OPTIONS} ${OPTARG}";;
+    esac
+done
+
+if [ "" = "$DBNAME" ]; then
+    echo "Usage [-u user] [-p] -d database"
     exit 1
 fi
 
-dbname=$1
 date=`date "+%Y-%m-%d"`
 
-# filename=${dbname}_schema_${date}.sql.gz
-# echo "Dump schema -> $filename"
-# mysqldump -d --quote-names --routines --triggers -p ${dbname} | gzip -c > $filename
-
-filename=${dbname}_${date}.sql.gz
+filename=${DBNAME}_${date}.sql.gz
 echo "Dump data -> $filename"
-mysqldump --quote-names --routines --triggers -p ${dbname} | gzip -c > $filename
+mysqldump ${OPTIONS} --quote-names --routines --triggers ${USER} ${PASSWD} ${DBNAME} | gzip -c > $filename
 
 exit 0
 
