@@ -13,9 +13,6 @@ Plug 'jamessan/vim-gnupg'
 " Dark code syntax mode that is easier on my eyes than solarized dark
 Plug 'tomasiser/vim-code-dark'
 
-" Tab variable completion
-Plug 'ervandew/supertab'
-
 " Improved tabs when running in the terminal instead of implementing it myself as described in:
 " https://vi.stackexchange.com/questions/11276/print-full-filename-in-tabs-when-using-terminal-vim
 " http://vimhelp.appspot.com/tabpage.txt.html#setting-tabline
@@ -42,7 +39,7 @@ Plug 'sk1418/Join'
 " Hilight trailing whitespace
 Plug 'ntpeters/vim-better-whitespace'
 
-" Fuzzy file finder
+" Fuzzy file finder (file and tag)
 Plug 'ctrlpvim/ctrlp.vim'
 
 " Awesome debugger plugin
@@ -54,9 +51,9 @@ Plug 'captbaritone/better-indent-support-for-php-with-html'
 " Color colornames and codes. Use :ColorHilight and :ColorClear
 Plug 'chrisbra/Colorizer'
 
-" Javascript linter, works with ale
-" Needs: npm install -g jshint
-Plug 'NikolayFrantsev/jshint2.vim'
+" Integrate with Dash (https://kapeli.com/dash)
+" :Dash (search under cursor), :Dash printf (search keyword), :Dash printf php (search in php docset)
+Plug 'rizzatti/dash.vim'
 
 " --------------------------------------------------------------------------------
 " Syntax hilighters
@@ -82,7 +79,8 @@ if has('gui_running')
 "    set guifont=Source\ Code\ Pro\ Light\ 9
 " Set the font for OSX
 "    set guifont=Consolas:h12
-    set guifont=SourceCodePro-Regular:h12
+"    set guifont=SourceCodePro-Regular:h12
+    set guifont=Source\ Code\ Variable\ Regular:h12
 else
     set background=dark
 endif
@@ -189,7 +187,7 @@ imap <C-Del> <C-O>dw
 " Map Mac move to start/end of line keys for consistency
 noremap <C-a> <Home>
 noremap <C-e> <End>
-noremap <C-k> <C-O>D
+noremap <C-k> D
 inoremap <C-a> <Home>
 inoremap <C-e> <End>
 inoremap <C-k> <C-O>D
@@ -281,6 +279,32 @@ set laststatus=2
 let g:ale_lint_delay=5000
 let g:ale_php_phpcs_standard='psr2'
 
+" Completion menu should always show and automatically insert if there is only one match
+" See :h completeopt
+set completeopt=menuone,longest
+
+" Vim's default JS completion does not use the language server so force Ale's
+autocmd BufNewFile,BufReadPost *.js set omnifunc=ale#completion#OmniFunc
+
+function! Smart_TabComplete()
+    " current line
+    let line = getline('.')
+    " fron the start of the current line to one character right of the cursor
+    let substr = strpart(line, -1, col('.')+1)
+    " word up to cursor
+    let substr = matchstr(substr, "[^ \t]*$")
+    if (strlen(substr)==0)
+        " nothing to match on empty string
+        return "\<tab>"
+    else
+        " enable completion
+        return "\<C-X>\<C-O>"
+    endif
+endfunction
+" If the popup menu is visible map tab to C-n (return), otherwise check to see if
+" we should enter a tab character or enable omni completion
+inoremap <expr> <tab> pumvisible() ? "\<C-n>" : "\<c-r>=Smart_TabComplete()<CR>"
+
 " --------------------------------------------------------------------------------
 " CtrlP configuration
 
@@ -318,26 +342,3 @@ endif
 " --------------------------------------------------------------------------------
 " Set default sql mode
 let g:sql_type_default='mysql'
-
-" --------------------------------------------------------------------------------
-" Syntastic configuration
-"set statusline+=%f
-"set statusline+=\ %#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
-
-" See https://github.com/vim-syntastic/syntastic/blob/master/doc/syntastic-checkers.txt
-" See https://github.com/vim-syntastic/syntastic/blob/master/doc/syntastic.txt
-" Note that only the part after 'syntastic-javascript-' is needed
-"let g:syntastic_json_checkers = ['jsonlint']
-"let g:syntastic_php_checkers = ['php', 'phpcs']
-" let g:syntastic_php_php_phpcs_exec = "/home/smgallo/bin/phpcs --standard=~/src/xdmod-qa/style/configs/phpcs.xml"
-"let g:syntastic_php_phpcs_args = '--standard=/home/smgallo/src/xdmod-qa/style/configs/phpcs.xml'
-" Extra debugging information. Useful for testing arg and exec modification. Use ":mes" to view messages in vim
-" let g:syntastic_debug = 7
-" let g:syntastic_debug_file = "~/syntastic.log"
