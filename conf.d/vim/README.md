@@ -157,9 +157,9 @@ to cycle through the selections using tab for efficiency.
 function! Smart_TabComplete()
     " current line
     let line = getline('.')
-    " fron the start of the current line to one character right of the cursor
-    let substr = strpart(line, -1, col('.')+1)
-    " word up to cursor
+    " fron the start of the current line to the character under the cursor
+    let substr = strpart(line, -1, col('.'))
+    " word to left of cursor
     let substr = matchstr(substr, "[^ \t]*$")
     if (strlen(substr)==0)
         " nothing to match on empty string
