@@ -286,12 +286,13 @@ set completeopt=menuone,longest
 " Vim's default JS completion does not use the language server so force Ale's
 autocmd BufNewFile,BufReadPost *.js set omnifunc=ale#completion#OmniFunc
 
+" Based on https://vim.fandom.com/wiki/Smart_mapping_for_tab_completion
 function! Smart_TabComplete()
     " current line
     let line = getline('.')
-    " fron the start of the current line to one character right of the cursor
-    let substr = strpart(line, -1, col('.')+1)
-    " word up to cursor
+    " fron the start of the current line to the character under the cursor
+    let substr = strpart(line, -1, col('.'))
+    " word to left of cursor
     let substr = matchstr(substr, "[^ \t]*$")
     if (strlen(substr)==0)
         " nothing to match on empty string
