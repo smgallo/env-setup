@@ -123,6 +123,7 @@ brew install eslint
 See
 - [Omni completion](https://vim.fandom.com/wiki/Omni_completion)
 - [Completion Menu IDE](https://vim.fandom.com/wiki/Make_Vim_completion_popup_menu_work_just_like_in_an_IDE)
+- [vim-mucomplete](https://github.com/lifepillar/vim-mucomplete)
 
 Vim included OmniCompletion in v7. For many languages such as SQL, HTML, CSS, JavaScript and PHP,
 omni completion will work out of the box. Other languages such as C and PHP will also take advantage
@@ -149,27 +150,38 @@ set completeopt=menuone,longest
 
 ## Tab Completion
 
-I'm used to tab-completion from the early days of `csh` and don't like menus bouncing all
-over my editor. I wanted to only enable the completion menu when I hit tab and also be able
-to cycle through the selections using tab for efficiency.
+I'm using [MUcomplete](https://github.com/lifepillar/vim-mucomplete) to support chained
+tab-completion. When you hit `<tab>` it attempts to complete using several methods until one returns
+matches. For example, if omni-complete does not return any matches buffer keyword completion or tag
+completion is tried.
+
+By default omni-completion only works if there is a keyword character in front of the cursor
+but I want to be able to use the Ale language server client to introspect class properties so I
+enable completion after a `->` or `::`.
+
+See :h mucomplete-customization
+See https://github.com/lifepillar/vim-mucomplete/blob/master/doc/mucomplete.txt (Customization)
+
+Extend the default condition to trigger omni-completion. See `let g:mucomplete#can_complete` in
+https://github.com/lifepillar/vim-mucomplete/blob/master/autoload/mucomplete.vim#L130
 
 ```vim
-function! Smart_TabComplete()
-    " current line
-    let line = getline('.')
-    " fron the start of the current line to the character under the cursor
-    let substr = strpart(line, -1, col('.'))
-    " word to left of cursor
-    let substr = matchstr(substr, "[^ \t]*$")
-    if (strlen(substr)==0)
-        " nothing to match on empty string
-        return "\<tab>"
-    else
-        " enable completion
-        return "\<C-X>\<C-O>"
-    endif
-endfunction
-" If the popup menu is visible map tab to C-n (return), otherwise check to see if
-" we should enter a tab character or enable omni completion
-inoremap <expr> <tab> pumvisible() ? "\<C-n>" : "\<c-r>=Smart_TabComplete()<CR>"
+" Trigger omni-completion on a keyword or -> and :: (see http://vimregex.com/)
+let s:omni_cond = { t -> t =~# '\m\%(\k\|->\|::\)$' }
+let g:mucomplete#can_complete = {}
+let g:mucomplete#can_complete.default = { 'omni': s:omni_cond }
+
+" Customize completions to use (add 'tags', remove 'uspl')
+let g:mucomplete#chains = {}
+let g:mucomplete#chains.default = ['omni', 'keyn', 'tags', 'path', 'dict' ]
 ```
+
+Completion via the language server
+![Language Server Completion](lang_server.png)
+
+Object introspection
+
+![Object Introspection 1](object1.png)
+
+![Object Introspection 2](object2.png)
+

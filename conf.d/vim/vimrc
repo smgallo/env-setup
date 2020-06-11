@@ -55,6 +55,10 @@ Plug 'chrisbra/Colorizer'
 " :Dash (search under cursor), :Dash printf (search keyword), :Dash printf php (search in php docset)
 Plug 'rizzatti/dash.vim'
 
+" Chained tab completion. If a match is not found using one completion method, try others.  For
+" example, try the language server then tags then local bufffer completion.
+Plug 'lifepillar/vim-mucomplete'
+
 " --------------------------------------------------------------------------------
 " Syntax hilighters
 
@@ -286,25 +290,19 @@ set completeopt=menuone,longest
 " Vim's default JS completion does not use the language server so force Ale's
 autocmd BufNewFile,BufReadPost *.js set omnifunc=ale#completion#OmniFunc
 
-" Based on https://vim.fandom.com/wiki/Smart_mapping_for_tab_completion
-function! Smart_TabComplete()
-    " current line
-    let line = getline('.')
-    " fron the start of the current line to the character under the cursor
-    let substr = strpart(line, -1, col('.'))
-    " word to left of cursor
-    let substr = matchstr(substr, "[^ \t]*$")
-    if (strlen(substr)==0)
-        " nothing to match on empty string
-        return "\<tab>"
-    else
-        " enable completion
-        return "\<C-X>\<C-O>"
-    endif
-endfunction
-" If the popup menu is visible map tab to C-n (return), otherwise check to see if
-" we should enter a tab character or enable omni completion
-inoremap <expr> <tab> pumvisible() ? "\<C-n>" : "\<c-r>=Smart_TabComplete()<CR>"
+" --------------------------------------------------------------------------------
+" MUcomplete configuration
+"
+" See :h mucomplete-customization
+" See https://github.com/lifepillar/vim-mucomplete/blob/master/doc/mucomplete.txt (Customization)
+
+" By default omni-completion is tried only if there is a keyword character in front of the cursor
+" but I want to be able to use the Ale language server client to introspect class properties so
+" enable completion after a '->' or '::'.
+
+let s:omni_cond = { t -> t =~# '\m\%(\k\|->\|::\)$' }
+let g:mucomplete#can_complete = {}
+let g:mucomplete#can_complete.default = { 'omni': s:omni_cond }
 
 " --------------------------------------------------------------------------------
 " CtrlP configuration
