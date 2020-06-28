@@ -36,9 +36,6 @@ Plug 'danro/rename.vim'
 " Provides more powerful line join features than the build-in :join
 Plug 'sk1418/Join'
 
-" Hilight trailing whitespace
-Plug 'ntpeters/vim-better-whitespace'
-
 " Fuzzy file finder (file and tag)
 Plug 'ctrlpvim/ctrlp.vim'
 
@@ -173,9 +170,6 @@ set pastetoggle=<F3>
 " Toggle hilighting seaerch matches.
 map <F4> :set hlsearch!<CR>
 imap <F4> <C-o>:set hlsearch!<CR>
-
-" Trim whitespace from the end of all lines
-nnoremap <silent> <F12> :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR>
 
 " Map ctrl-a to select all text on the screen (rather than incrementing an integer)
 " map <C-a> <esc>ggVG<CR>
@@ -345,3 +339,19 @@ endif
 " --------------------------------------------------------------------------------
 " Set default sql mode
 let g:sql_type_default='mysql'
+
+" --------------------------------------------------------------------------------
+" Whitespace handing
+
+" Hilight whitespace at end of line but only when we enter or leave a buffer or insert mode
+" See https://superuser.com/questions/921920/display-trailing-spaces-in-vim
+
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
+
+" Trim whitespace from the end of all lines
+nnoremap <silent> <F12> :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR>
