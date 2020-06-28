@@ -36,9 +36,6 @@ Plug 'danro/rename.vim'
 " Provides more powerful line join features than the build-in :join
 Plug 'sk1418/Join'
 
-" Hilight trailing whitespace
-Plug 'ntpeters/vim-better-whitespace'
-
 " Fuzzy file finder (file and tag)
 Plug 'ctrlpvim/ctrlp.vim'
 
@@ -61,6 +58,9 @@ Plug 'lifepillar/vim-mucomplete'
 
 " --------------------------------------------------------------------------------
 " Syntax hilighters
+
+" An up-to-date Vim syntax for PHP.
+Plug 'StanAngeloff/php.vim'
 
 " A collection of language packs for Vim
 Plug 'sheerun/vim-polyglot'
@@ -91,17 +91,6 @@ endif
 
 " --------------------------------------------------------------------------------
 " Color schemes
-"
-" Solarized color scheme: http://ethanschoonover.com/solarized
-"
-" Option for low contrast
-" let g:solarized_contrast="high"
-"
-" Variables that may need to be set for the solarized color palette. Enable this in OSX terminal when
-" using Solarized color scheme. Disable it in Konsole or the background is yellowish.
-if s:uname == "Darwin"
-    let g:solarized_termcolors=256
-endif
 
 " May need to set this if the terminal only supports 256 colors (especially in light mode)
 " set t_Co=256
@@ -173,9 +162,6 @@ set pastetoggle=<F3>
 " Toggle hilighting seaerch matches.
 map <F4> :set hlsearch!<CR>
 imap <F4> <C-o>:set hlsearch!<CR>
-
-" Trim whitespace from the end of all lines
-nnoremap <silent> <F12> :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR>
 
 " Map ctrl-a to select all text on the screen (rather than incrementing an integer)
 " map <C-a> <esc>ggVG<CR>
@@ -304,6 +290,10 @@ let s:omni_cond = { t -> t =~# '\m\%(\k\|->\|::\)$' }
 let g:mucomplete#can_complete = {}
 let g:mucomplete#can_complete.default = { 'omni': s:omni_cond }
 
+" Customize completions to use (add 'tags', remove 'uspl')
+let g:mucomplete#chains = {}
+let g:mucomplete#chains.default = ['omni', 'keyn', 'tags', 'path', 'dict' ]
+
 " --------------------------------------------------------------------------------
 " CtrlP configuration
 
@@ -341,3 +331,39 @@ endif
 " --------------------------------------------------------------------------------
 " Set default sql mode
 let g:sql_type_default='mysql'
+
+" --------------------------------------------------------------------------------
+" Whitespace handing
+
+" Hilight whitespace at end of line but only when we enter or leave a buffer or insert mode
+" See https://superuser.com/questions/921920/display-trailing-spaces-in-vim
+
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
+
+" Trim whitespace from the end of all lines
+nnoremap <silent> <F12> :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR>
+
+" --------------------------------------------------------------------------------
+" StanAngeloff/php.vim configuration
+" Put this function at the very end of your vimrc file.
+" PHPDoc is not hilighted by default, fix this.
+
+" Do not use polygot for PHP syntax highlighting, we are using StanAngeloff/php.vim
+let g:polyglot_disabled = ['php']
+
+function! PhpSyntaxOverride()
+  " Put snippet overrides in this function.
+  hi! link phpDocTags phpDefine
+  hi! link phpDocParam phpType
+  hi! link phpDocIdentifier phpIdentifier
+endfunction
+
+augroup phpSyntaxOverride
+  autocmd!
+  autocmd FileType php call PhpSyntaxOverride()
+augroup END

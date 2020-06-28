@@ -1,6 +1,6 @@
 # Vim
 
-## Syntax Hilighters
+# Syntax Hilighters
 
 I used to include these syntax hilighters directly but now use [vim-polygot](https://github.com/sheerun/vim-polyglot)
 
@@ -128,7 +128,7 @@ See
 Vim included OmniCompletion in v7. For many languages such as SQL, HTML, CSS, JavaScript and PHP,
 omni completion will work out of the box. Other languages such as C and PHP will also take advantage
 of a tags file - if one exists. This functionality is added via the `omnifunc` variable and is set
-up in the `vim/runtime/autoload/*complete.vim` files. The function name appears to use 
+up in the `vim/runtime/autoload/*complete.vim` files. The function name appears to use
 
 I found that not all of these play well with language servers (e.g., Javascript autocomplete) so we
 can override them for specific file formats:
@@ -185,3 +185,65 @@ Object introspection
 
 ![Object Introspection 2](object2.png)
 
+# Troubleshooting
+
+## Slow Cursor Movement In Insert Mode
+
+In one of the 8.1 or 8.2 releases, cursor movement in insert mode became horribly sluggish due to
+syntax highlighting overhead when I had
+[vim-better-whitespace](https://github.com/ntpeters/vim-better-whitespace) installed.  I only care
+about seeing whitespace at the end of a line using a simple regex instead (see
+[display-trailing-spaces-in-vim](https://superuser.com/questions/921920/display-trailing-spaces-in-vim)).
+
+```vim
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
+```
+
+Setting `:syntime on`, going into insert mode, and simply using the up arrow to the top, and `:syntime report`
+on a 600 line file showed this report:
+
+```
+TOTAL      COUNT  MATCH   SLOWEST     AVERAGE   NAME               PATTERN
+6.076884   43215  948     0.001384    0.000141  phpHereDoc         \(<<<\)\@3<=\s*\z(\(\I\i*\)\=\(sql\)\c\(\i*\)\)$
+5.855934   42430  0       0.001368    0.000138  phpHereDoc         \(<<<\)\@3<=\s*\z(\(\I\i*\)\=\(javascript\)\c\(\i*\)\)$
+5.815534   42430  0       0.001219    0.000137  phpHereDoc         \(<<<\)\@3<=\s*\z(\(\I\i*\)\=\(html\)\c\(\i*\)\)$
+2.419199   42430  163     0.000568    0.000057  phpHereDoc         \(<<<\)\@3<=\s*\z(\I\i*\)$
+1.625747   42430  0       0.000592    0.000038  phpNowDoc          \(<<<\)\@3<=\s*'\z(\(\I\i*\)\=\(sql\)\c\(\i*\)\)'$
+1.546093   42430  0       0.000587    0.000036  phpNowDoc          \(<<<\)\@3<=\s*'\z(\(\I\i*\)\=\(javascript\)\c\(\i*\)\)'$
+1.535430   42430  0       0.000573    0.000036  phpNowDoc          \(<<<\)\@3<=\s*'\z(\(\I\i*\)\=\(html\)\c\(\i*\)\)'$
+1.390525   42430  0       0.000422    0.000033  phpNowDoc          \(<<<\)\@3<=\s*'\z(\I\i*\)'$
+1.148893   42430  0       0.000454    0.000027  phpHereDoc         \(<<<\)\@3<=\s*"\z(\I\i*\)"$
+0.372637   42971  1394    0.000128    0.000009  phpStaticClasses   \v\h\w+(::)@=
+0.244513   165833 135423   0.000132   0.000001  phpParent          [({[\]})]
+0.180754   68078  23533   0.000112    0.000003  phpMethodsVar      \%(->\|::$\?\)\h\w*
+0.179416   46487  1614    0.000122    0.000004  phpMethodsVar      \%(->\|::\%($\)\@!\)\s*\h\w*\s*(
+0.172494   104895 66818   0.000123    0.000002  phpOperator        [-=+%^&|*!.~?:]
+0.143371   41577  332     0.000115    0.000003  phpOperator        ||\|\<x\=or\>
+```
+
+Without vim-better-whitespace was much better:
+
+```
+TOTAL      COUNT  MATCH   SLOWEST     AVERAGE   NAME               PATTERN
+0.261640   1820   15      0.001303    0.000144  phpHereDoc         \(<<<\)\@3<=\s*\z(\(\I\i*\)\=\(sql\)\c\(\i*\)\)$
+0.247960   1810   0       0.001036    0.000137  phpHereDoc         \(<<<\)\@3<=\s*\z(\(\I\i*\)\=\(javascript\)\c\(\i*\)\)$
+0.244227   1810   0       0.001151    0.000135  phpHereDoc         \(<<<\)\@3<=\s*\z(\(\I\i*\)\=\(html\)\c\(\i*\)\)$
+0.103178   1810   5       0.000455    0.000057  phpHereDoc         \(<<<\)\@3<=\s*\z(\I\i*\)$
+0.071927   1810   0       0.000513    0.000040  phpNowDoc          \(<<<\)\@3<=\s*'\z(\(\I\i*\)\=\(sql\)\c\(\i*\)\)'$
+0.065128   1810   0       0.000451    0.000036  phpNowDoc          \(<<<\)\@3<=\s*'\z(\(\I\i*\)\=\(javascript\)\c\(\i*\)\)'$
+0.064103   1810   0       0.000430    0.000035  phpNowDoc          \(<<<\)\@3<=\s*'\z(\(\I\i*\)\=\(html\)\c\(\i*\)\)'$
+0.058982   1810   0       0.000298    0.000033  phpNowDoc          \(<<<\)\@3<=\s*'\z(\I\i*\)'$
+0.048396   1810   0       0.000281    0.000027  phpHereDoc         \(<<<\)\@3<=\s*"\z(\I\i*\)"$
+0.010630   5845   4570    0.000028    0.000002  phpParent          [({[\]})]
+0.008496   910    30      0.000048    0.000009  phpStaticClasses   \v\h\w+(::)@=
+0.005063   1814   194     0.000069    0.000003  phpComment         //.\{-}\(?>\|$\)\@=
+0.003948   979    58      0.000048    0.000004  phpMethodsVar      \%(->\|::\%($\)\@!\)\s*\h\w*\s*(
+0.003672   1299   383     0.000020    0.000003  phpMethodsVar      \%(->\|::$\?\)\h\w*
+0.003627   2078   1285    0.000019    0.000002  phpOperator        [-=+%^&|*!.~?:]
+0.003186   880    5       0.000027    0.000004  phpOperator        ||\|\<x\=or\>
+```
