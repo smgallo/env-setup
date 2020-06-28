@@ -91,17 +91,6 @@ endif
 
 " --------------------------------------------------------------------------------
 " Color schemes
-"
-" Solarized color scheme: http://ethanschoonover.com/solarized
-"
-" Option for low contrast
-" let g:solarized_contrast="high"
-"
-" Variables that may need to be set for the solarized color palette. Enable this in OSX terminal when
-" using Solarized color scheme. Disable it in Konsole or the background is yellowish.
-if s:uname == "Darwin"
-    let g:solarized_termcolors=256
-endif
 
 " May need to set this if the terminal only supports 256 colors (especially in light mode)
 " set t_Co=256
