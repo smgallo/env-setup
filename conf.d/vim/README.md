@@ -1,5 +1,16 @@
 # Vim
 
+# Colorscheme
+
+I added the following to the end of `~/.vim/plugged/colors/codedark.vim` to improve SQL hilighting for my taste.
+
+```
+" SQL:
+call <sid>hi('sqlKeyword', s:cdPink, {}, 'none', {})
+call <sid>hi('sqlFunction', s:cdYellowOrange, {}, 'none', {})
+call <sid>hi('sqlOperator', s:cdPink, {}, 'none', {})
+```
+
 # Syntax Hilighters
 
 I used to include these syntax hilighters directly but now use [vim-polygot](https://github.com/sheerun/vim-polyglot)
