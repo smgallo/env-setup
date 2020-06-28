@@ -59,6 +59,9 @@ Plug 'lifepillar/vim-mucomplete'
 " --------------------------------------------------------------------------------
 " Syntax hilighters
 
+" An up-to-date Vim syntax for PHP.
+Plug 'StanAngeloff/php.vim'
+
 " A collection of language packs for Vim
 Plug 'sheerun/vim-polyglot'
 
@@ -355,3 +358,23 @@ autocmd BufWinLeave * call clearmatches()
 
 " Trim whitespace from the end of all lines
 nnoremap <silent> <F12> :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR>
+
+" --------------------------------------------------------------------------------
+" StanAngeloff/php.vim configuration
+" Put this function at the very end of your vimrc file.
+" PHPDoc is not hilighted by default, fix this.
+
+" Do not use polygot for PHP syntax highlighting, we are using StanAngeloff/php.vim
+let g:polyglot_disabled = ['php']
+
+function! PhpSyntaxOverride()
+  " Put snippet overrides in this function.
+  hi! link phpDocTags phpDefine
+  hi! link phpDocParam phpType
+  hi! link phpDocIdentifier phpIdentifier
+endfunction
+
+augroup phpSyntaxOverride
+  autocmd!
+  autocmd FileType php call PhpSyntaxOverride()
+augroup END
