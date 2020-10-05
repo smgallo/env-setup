@@ -290,9 +290,9 @@ let s:omni_cond = { t -> t =~# '\m\%(\k\|->\|::\)$' }
 let g:mucomplete#can_complete = {}
 let g:mucomplete#can_complete.default = { 'omni': s:omni_cond }
 
-" Customize completions to use (add 'tags', remove 'uspl')
+" Customize completions to use (add 'c-p', 'tags'; remove 'uspl')
 let g:mucomplete#chains = {}
-let g:mucomplete#chains.default = ['omni', 'keyn', 'tags', 'path', 'dict' ]
+let g:mucomplete#chains.default = ['omni', 'keyp', 'c-p', 'tags', 'path', 'dict' ]
 
 " --------------------------------------------------------------------------------
 " CtrlP configuration
