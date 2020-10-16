@@ -60,41 +60,29 @@ The default configuration was very reasonable so configuration changes were mini
 - If I select a file from the quick open pane (cmd-P) open it in a new tab instead of the preview
   pane.
 
-```javascript
-{
-    // See https://code.visualstudio.com/docs/editor/intellisense#_customizing-intellisense
-    // Don't show completions unless I manually request one with ctrl-space
-    "editor.tabCompletion": "on",
-    "editor.acceptSuggestionOnCommitCharacter": false,
-    "editor.quickSuggestions": {
-        "other": false,
-        "comments": false,
-        "strings": false
-    },
-    "editor.suggestOnTriggerCharacters": false,
-    "editor.wordWrapColumn": 120,
-    "editor.formatOnPaste": true,
-    // Don't let vimcode handle these keys. Makes cursor movement easier on OSX.
-    "vim.handleKeys": {
-        "<C-a>": false,
-        "<C-e>": false
-    },
-    "vim.textwidth": 120,
-    "files.associations": {
-        "*.view": "php"
-    },
-    "files.trimTrailingWhitespace": true,
-    "diffEditor.renderSideBySide": false,
-    // If I select a file from the search pane open it in a new tab
-    "workbench.editor.enablePreviewFromQuickOpen": false,
-    // Hilight modified tabs in addition to the dot
-    "workbench.editor.highlightModifiedTabs": true,
-    // Don't show errors while I'm in the middle of writing a statement
-    "errorLens.delay": 5000,
-    "workbench.iconTheme": "vscode-icons",
-    "editor.fontFamily": "Source Code Variable, Menlo, Monaco, 'Courier New', monospace"
-}
-```
+Change the following behaviors:
+- Editor
+    - Don't show completions unless I manually request one with ctrl+space
+    - Don't show function parameters unless I manually request it with shift+ctrl+space
+    - Don't highlight occurrences of the word under the cursor
+    - Don't auto-close quotes and brackets
+- VimCode
+    - Dont's let vimcode handle ctrl+{a,e,d,l} so I can use default Mac behaviors
+    - Properly handle cmd+c, cmd+v without exiting insert mode
+- If I select a file from the search pane open it in a new tab
+- Hilight modified tabs in addition to the dot
+- Delay showing ErrorLens messages while I'm in the middle of writing a statement
+- Do not complain about undefined classes in vendor such as \App and \Gateway
+
+[~/Library/Application\ Support/Code/User/settings.json](settings.json)
+
+Change the following keybindings:
+- ctrl+arrow to move one word left and right
+- ctrl+backspace, ctrl+delete to delete one word left and right
+- Disable ctrl+k from the Split Text extension so I kill a line in vim
+- Remap triggerParameterHints to shift+ctrl+space to be more in line with quickSuggestions
+
+[~/Library/Application\ Support/Code/User/keybindings.json](keybindings.json)
 
 # Plugins and Extensions
 
