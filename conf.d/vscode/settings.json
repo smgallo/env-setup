@@ -11,28 +11,16 @@
     // Combined with a keyinding of shift+ctrl+space for triggerParameterHints for less visual clutter
     "editor.parameterHints.enabled": false,
     "editor.suggestOnTriggerCharacters": false,
-    "editor.wordWrapColumn": 100,
-    "editor.formatOnPaste": true,
+    "editor.wordWrapColumn": 200,
     "editor.fontFamily": "'Source Code Pro', Menlo, Monaco, 'Courier New', monospace",
     "editor.minimap.enabled": false,
     "editor.autoClosingBrackets": "never",
     "editor.autoClosingQuotes": "never",
     // Don't highlight occurrences of the word under the cursor
     "editor.occurrencesHighlight": false,
-    // Don't let vimcode handle these keys. Makes cursor movement easier on OSX.
-    // ctrl-k is used by the Split Join Texts extension, disable that keybinding.
-    "vim.handleKeys": {
-        "<C-a>": false,
-        "<C-e>": false,
-        "<C-d>": false,
-        "<C-k>": false
-    },
-    "vim.textwidth": 100,
-    "vim.overrideCopy": false,  // Properly handle cmd-c, cmd-v without exiting insert mode
     "files.associations": {
         "*.view": "php"
     },
-    "files.trimTrailingWhitespace": true,
     "diffEditor.renderSideBySide": false,
     // If I select a file from the search pane open it in a new tab
     "workbench.editor.enablePreviewFromQuickOpen": false,
@@ -42,5 +30,10 @@
     // Do not complain about undefined classes in vendor such as \App and \Gateway
     "intelephense.diagnostics.undefinedTypes": false,
     // Don't show errors while I'm in the middle of writing a statement
-    "errorLens.delay": 20000
+    "errorLens.delay": 20000,
+    "html.format.wrapLineLength": 0,
+    "files.trimTrailingWhitespace": true,
+    "phpcs.executablePath": "/Users/st25673/.composer/vendor/bin/phpcs",
+    "window.zoomLevel": 0,
+    "rewrap.wrappingColumn": 120
 }
