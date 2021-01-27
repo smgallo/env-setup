@@ -66,6 +66,6 @@
     },
     {
         "key": "cmd+=",
-        "command": "editor.action.reindentselectedlines"
+        "command": "editor.action.formatSelection"
     }
 ]

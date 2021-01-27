@@ -35,5 +35,8 @@
     "files.trimTrailingWhitespace": true,
     "phpcs.executablePath": "/Users/st25673/.composer/vendor/bin/phpcs",
     "window.zoomLevel": 0,
-    "rewrap.wrappingColumn": 120
+    "rewrap.wrappingColumn": 120,
+    "editor.hover.delay": 750,
+    // Don't show unnecessary suggestions like global variables. For example, only suggest properties/methods for an object.
+    "php.suggest.basic": false
 }
