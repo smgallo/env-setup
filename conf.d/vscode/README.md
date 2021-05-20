@@ -98,6 +98,8 @@ open pane and replaces the ctrl-p plugin allowing you to search file names, path
 Intellisense provides code completion and parameter info as well as identifying usages of undefined
 variables.
 
+- **Advanced New File**. Lets me use `alt+cmd+N` to specify path and filename to create without needing
+  to use the mouse. Similar to vim `:tabnew private/views/report.view`
 - **Color Highlight**. Apply style to css/web colors found in the document.
 - **CSS Peek**. Provides symbol definition tracking for CSS selectors.
 - **CTags**. Go to symbol definition and include tags in auto-completion. The tags file needs to be
@@ -109,9 +111,12 @@ variables.
   support on the VSCode landing page.
 - **IngelliSense for CSS**. Provides CSS class name completion for the HTML class attribute based on
   the definitions found in your workspace or external files referenced through the link element.
+- **Inline Parameters for VSCode**. Adds inline parameter annotations when calling a function.
 - **PHP Debug**. Debug adapter between VS Code and XDebug. This is installed when you select PHP
   language support on the VSCode landing page.
 - **PHP DocBlocker**. Improved support for generating docblocks.
+- [PHPDoc Generator](https://marketplace.visualstudio.com/items?itemName=ronvanderheijden.phpdoc-generator)
+  Hit ctrl+Enter on a line to generate PHPDoc above it. I like the generated docs they are concise and reflect parameter types.
 - **PHP Intelephense**. PHP language server. This appears to be better rated than PHP IntelliSense,
   and is self-contained. PHP IntelliSense is an interface to Felix Becker's
   [php-language-server](https://github.com/felixfbecker/php-language-server) This is what I had used
@@ -119,6 +124,8 @@ variables.
   Set `"php.suggest.basic": false` in settings.json to stop the PHP Language Basics plugin from suggesting
   globals for objects and only suggest relevant properties/methods.
 - **phpcs**. Plugin for phpcs linter that uses a global install of phpcs.
+- [Quick and Simple Text Selection](https://marketplace.visualstudio.com/items?itemName=dbankier.vscode-quick-select)
+  Allows selection of text inside of markers such as quotes, brackets, and parens - just like `wip` in vim.
 - **Split Join texts**. Operates similar to vim's `:Join ','` by joining multiple lines with a
   delimiter `ctrl-k ctrl-2` or splitting a delimited list into multiple lines.
 - **VSCode Icons** Add filetype based icons to the Explorer. Enable with `Preferences > File Icon Theme > VSCode Icons`
