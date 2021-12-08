@@ -60,9 +60,9 @@
         "METRIC",
         "QUESTION",
         "TODO",
-        "IMPORTANT",
         "[ ]",
-        "[x]"
+        "[x]",
+        "IMPORTANT"
     ],
     "todo-tree.highlights.customHighlight": {
         "METRIC": {
@@ -131,6 +131,9 @@
             }
         ]
     },
+    "emmet.excludeLanguages": [
+        "php"
+    ]
     /*
     "[php]": {
         "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
