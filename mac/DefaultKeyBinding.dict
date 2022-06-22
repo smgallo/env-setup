@@ -1,0 +1,8 @@
+{
+  "\UF729"  = moveToBeginningOfParagraph:; // home
+  "\UF72B"  = moveToEndOfParagraph:;       // end
+  "^\UF702" = moveWordLeft:;       // ctrl-left
+  "^\UF703" = moveWordRight:;      // ctrl-right
+  "^\U007F" = deleteWordBackward:; // ctrl-backspace
+  "^\UF728" = deleteWordForward:;  // ctrl-delete
+}
